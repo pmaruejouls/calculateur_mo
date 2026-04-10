@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a4a2e">
+<title>Calculateur Matières Organiques</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-900: #0d2b18;
+    --green-800: #1a4a2e;
+    --green-700: #1f5c38;
+    --green-600: #2d7a4f;
+    --green-500: #3a9663;
+    --green-400: #5db882;
+    --green-200: #a8dbbf;
+    --green-100: #d4f0e2;
+    --green-50:  #eef8f3;
+    --amber-400: #e8a020;
+    --amber-100: #fdf0d0;
+    --blue-400:  #3a7cc4;
+    --blue-100:  #ddeaf9;
+    --sand-100:  #f5f2ec;
+    --sand-200:  #e8e3d8;
+    --text-main: #1a1a1a;
+    --text-muted: #5a6b5f;
+    --text-light: #8a9e92;
+    --bg: #f2f5f0;
+    --card-bg: #ffffff;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 2px 12px rgba(26,74,46,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,74,46,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ─── Header ─── */
+  .app-header {
+    background: var(--green-800);
+    padding: 20px 20px 24px;
+    padding-top: calc(20px + env(safe-area-inset-top));
+    position: relative;
+    overflow: hidden;
+  }
+  .app-header::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .app-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -20px;
+    width: 240px; height: 120px;
+    border-radius: 50%;
+    background: rgba(93,184,130,0.08);
+  }
+  .header-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--green-400);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .header-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: var(--green-200);
+    font-weight: 300;
+  }
+
+  /* ─── Main content ─── */
+  .content { padding: 16px 16px 32px; max-width: 520px; margin: 0 auto; }
+
+  /* ─── Cards ─── */
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  /* ─── Select MO ─── */
+  .mo-select-wrap { position: relative; }
+  .mo-select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--green-600);
+    pointer-events: none;
+    font-size: 14px;
+  }
+  select {
+    width: 100%;
+    padding: 12px 36px 12px 14px;
+    border: 1.5px solid var(--sand-200);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--text-main);
+    background: var(--sand-100);
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  select:focus { outline: none; border-color: var(--green-500); }
+
+  .mo-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .badge {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-weight: 400;
+  }
+  .badge-mv { background: var(--green-50); color: var(--green-700); }
+  .badge-n  { background: var(--green-100); color: var(--green-800); }
+  .badge-p  { background: var(--amber-100); color: #7a5010; }
+  .badge-k  { background: var(--blue-100); color: #1a4a8a; }
+
+  /* ─── Surface ─── */
+  .surface-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .tog-btn {
+    padding: 10px;
+    border: 1.5px solid var(--sand-200);
+    border-radius: var(--radius-sm);
+    background: var(--sand-100);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .tog-btn.active {
+    border-color: var(--green-600);
+    background: var(--green-50);
+    color: var(--green-800);
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  input[type="number"] {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1.5px solid var(--sand-200);
+    border-radius: var(--radius-sm);
+    font-size: 18px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    color: var(--text-main);
+    background: var(--sand-100);
+    transition: border-color 0.15s;
+  }
+  input[type="number"]:focus { outline: none; border-color: var(--green-500); background: #fff; }
+  .unit-pill {
+    padding: 10px 14px;
+    background: var(--green-800);
+    color: var(--green-200);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  /* ─── Mode buttons ─── */
+  .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .mode-btn {
+    padding: 11px 10px;
+    border: 1.5px solid var(--sand-200);
+    border-radius: var(--radius-sm);
+    background: var(--sand-100);
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.3;
+    transition: all 0.15s;
+  }
+  .mode-btn.active {
+    border-color: var(--green-600);
+    background: var(--green-800);
+    color: #fff;
+  }
+
+  /* ─── Results ─── */
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .res-card {
+    background: var(--sand-100);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    border-left: 3px solid var(--green-500);
+  }
+  .res-label { font-size: 11px; color: var(--text-light); margin-bottom: 3px; font-weight: 400; }
+  .res-val {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-main);
+    line-height: 1.2;
+  }
+  .res-unit { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ─── NPK ─── */
+  .npk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .npk-card {
+    border-radius: var(--radius-sm);
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .npk-n { background: var(--green-100); }
+  .npk-p { background: var(--amber-100); }
+  .npk-k { background: var(--blue-100); }
+
+  .npk-letter {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .npk-n .npk-letter { color: var(--green-700); }
+  .npk-p .npk-letter { color: #8a5c10; }
+  .npk-k .npk-letter { color: var(--blue-400); }
+
+  .npk-val {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    color: var(--text-main);
+    line-height: 1.4;
+  }
+  .npk-sub { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+
+  .info-note {
+    background: var(--green-50);
+    border: 1px solid var(--green-100);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--green-700);
+    line-height: 1.5;
+  }
+
+  .sep { height: 1px; background: var(--sand-200); margin: 12px 0; }
+
+  .section-sub {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .footer-credit {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-light);
+    padding: 16px 0 8px;
+    line-height: 1.6;
+  }
+  .footer-credit a { color: var(--green-600); text-decoration: none; }
+
+  /* ─── Animations ─── */
+  .card { animation: slideUp 0.3s ease both; }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.1s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+  .card:nth-child(4) { animation-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-label">Maraîchage bio · Outil terrain</div>
+  <div class="header-title">Calculateur MO</div>
+  <div class="header-sub">Convertisseur doses &amp; apports N·P·K</div>
+</div>
+
+<div class="content">
+
+  <!-- Matière organique -->
+  <div class="card">
+    <div class="card-label">Matière organique</div>
+    <div class="mo-select-wrap">
+      <select id="mo-select" onchange="update()"></select>
+    </div>
+    <div class="mo-badges" id="mo-badges"></div>
+  </div>
+
+  <!-- Surface -->
+  <div class="card">
+    <div class="card-label">Surface</div>
+    <div class="surface-toggle">
+      <button class="tog-btn active" id="btn-ha" onclick="setSurfaceUnit('ha')">Hectares (ha)</button>
+      <button class="tog-btn" id="btn-m2" onclick="setSurfaceUnit('m2')">Mètres carrés (m²)</button>
+    </div>
+    <div class="input-row">
+      <input type="number" id="surface-val" value="1" min="0" step="0.01" oninput="update()" inputmode="decimal" />
+      <span class="unit-pill" id="surface-unit-label">ha</span>
+    </div>
+  </div>
+
+  <!-- Mode de raisonnement -->
+  <div class="card">
+    <div class="card-label">Je raisonne en…</div>
+    <div class="mode-grid">
+      <button class="mode-btn active" id="btn-epaisseur" onclick="setMode('epaisseur')">Épaisseur<br><small>cm</small></button>
+      <button class="mode-btn" id="btn-vol_ha" onclick="setMode('vol_ha')">Volume<br><small>m³/ha</small></button>
+      <button class="mode-btn" id="btn-vol_m2" onclick="setMode('vol_m2')">Volume<br><small>l/m²</small></button>
+      <button class="mode-btn" id="btn-vol_surface" onclick="setMode('vol_surface')">Volume<br><small>m³/surface</small></button>
+      <button class="mode-btn" id="btn-poids_t_surface" onclick="setMode('poids_t_surface')">Poids<br><small>t/surface</small></button>
+      <button class="mode-btn" id="btn-poids_t_ha" onclick="setMode('poids_t_ha')">Poids<br><small>t/ha</small></button>
+      <button class="mode-btn" id="btn-poids_kg_m2" onclick="setMode('poids_kg_m2')">Poids<br><small>kg/m²</small></button>
+      <button class="mode-btn" id="btn-azote" onclick="setMode('azote')">Objectif N<br><small>kgN dispo/ha</small></button>
+    </div>
+    <div class="input-row">
+      <input type="number" id="input-val" value="1" min="0" step="0.01" oninput="update()" inputmode="decimal" />
+      <span class="unit-pill" id="input-unit-label">cm</span>
+    </div>
+  </div>
+
+  <!-- Résultats -->
+  <div class="card">
+    <div class="card-label">Résultats — conversions</div>
+    <div class="results-grid" id="results-grid"></div>
+
+    <div class="sep"></div>
+
+    <div class="section-sub">Apports minéraux estimés (kgN-P-K / ha)</div>
+    <div class="npk-grid" id="npk-grid"></div>
+    <div class="info-note">
+      Fourchette min–max selon la variabilité des teneurs. Le N dispo = azote disponible pour la culture lors de la 1ère année. Ces valeurs sont indicatives.
+    </div>
+  </div>
+
+  <div class="footer-credit">
+    V1.3 · Victor Galland – Agribio 05<br>
+    <a href="mailto:agronomie05@bio-provence.org">agronomie05@bio-provence.org</a> · 06 10 26 68 95<br>
+    <span style="font-size:10px;">CC BY-NC-SA 4.0</span>
+  </div>
+
+</div>
+
+<script>
+const MO_DATA = [
+  {name:"Fumier bovin frais",                    mvMin:400,  mvMax:500,  nMin:4,   nMax:6,   nDispo:0.25, pMin:2,   pMax:4,   pDispo:0.8,  kMin:5,   kMax:12,  kDispo:1},
+  {name:"Fumier bovin vieux",                    mvMin:500,  mvMax:800,  nMin:4,   nMax:6,   nDispo:0.2,  pMin:2,   pMax:4,   pDispo:0.8,  kMin:5,   kMax:12,  kDispo:1},
+  {name:"Compost fumier bovin",                  mvMin:600,  mvMax:800,  nMin:5,   nMax:9,   nDispo:0.1,  pMin:3,   pMax:5,   pDispo:0.8,  kMin:5,   kMax:15,  kDispo:1},
+  {name:"Lisier bovin",                          mvMin:1000, mvMax:1000, nMin:1.3, nMax:4,   nDispo:0.5,  pMin:1,   pMax:2,   pDispo:0.95, kMin:3,   kMax:5,   kDispo:1},
+  {name:"Fumier ovin/caprin frais",              mvMin:300,  mvMax:400,  nMin:7,   nMax:11,  nDispo:0.25, pMin:5,   pMax:6,   pDispo:0.8,  kMin:10,  kMax:25,  kDispo:1},
+  {name:"Fumier ovin/caprin vieux",              mvMin:400,  mvMax:600,  nMin:7,   nMax:11,  nDispo:0.2,  pMin:5,   pMax:6,   pDispo:0.8,  kMin:10,  kMax:25,  kDispo:1},
+  {name:"Compost fumier ovin/caprin",            mvMin:500,  mvMax:700,  nMin:7,   nMax:12,  nDispo:0.1,  pMin:4,   pMax:7,   pDispo:0.8,  kMin:10,  kMax:25,  kDispo:1},
+  {name:"Fumier cheval",                         mvMin:300,  mvMax:500,  nMin:5,   nMax:11,  nDispo:0.25, pMin:2.5, pMax:5.5, pDispo:0.8,  kMin:5.5, kMax:16,  kDispo:1},
+  {name:"Compost fumier cheval",                 mvMin:400,  mvMax:600,  nMin:5,   nMax:11,  nDispo:0.1,  pMin:2.5, pMax:5.5, pDispo:0.8,  kMin:5.5, kMax:16,  kDispo:1},
+  {name:"Fumier volaille pailleux",              mvMin:300,  mvMax:500,  nMin:15,  nMax:20,  nDispo:0.5,  pMin:15,  pMax:20,  pDispo:1,    kMin:10,  kMax:15,  kDispo:1},
+  {name:"Fumier volaille composté",              mvMin:400,  mvMax:600,  nMin:10,  nMax:14,  nDispo:0.3,  pMin:10,  pMax:15,  pDispo:0.8,  kMin:15,  kMax:20,  kDispo:1},
+  {name:"Fientes volaille humides",              mvMin:400,  mvMax:600,  nMin:15,  nMax:20,  nDispo:0.6,  pMin:15,  pMax:20,  pDispo:1,    kMin:10,  kMax:15,  kDispo:1},
+  {name:"Fientes volaille sèches",               mvMin:250,  mvMax:350,  nMin:30,  nMax:40,  nDispo:0.6,  pMin:30,  pMax:40,  pDispo:1,    kMin:20,  kMax:30,  kDispo:1},
+  {name:"Fientes volaille compostées",           mvMin:400,  mvMax:600,  nMin:20,  nMax:30,  nDispo:0.4,  pMin:20,  pMax:30,  pDispo:0.8,  kMin:15,  kMax:20,  kDispo:1},
+  {name:"Fumier porc",                           mvMin:400,  mvMax:500,  nMin:4,   nMax:8,   nDispo:0.25, pMin:8,   pMax:9,   pDispo:0.8,  kMin:13,  kMax:14,  kDispo:1},
+  {name:"Lisier porc",                           mvMin:1000, mvMax:1000, nMin:4,   nMax:7,   nDispo:0.6,  pMin:4,   pMax:5.5, pDispo:0.95, kMin:2,   kMax:4.5, kDispo:1},
+  {name:"Compost mûr sec divers",                mvMin:250,  mvMax:400,  nMin:7,   nMax:12,  nDispo:0.1,  pMin:3,   pMax:5,   pDispo:0.8,  kMin:5,   kMax:15,  kDispo:1},
+  {name:"Compost mûr humide divers",             mvMin:500,  mvMax:800,  nMin:5,   nMax:10,  nDispo:0.1,  pMin:2,   pMax:4,   pDispo:0.8,  kMin:4,   kMax:12,  kDispo:1},
+  {name:"Broyat frais",                          mvMin:230,  mvMax:330,  nMin:3,   nMax:7,   nDispo:0,    pMin:1,   pMax:3,   pDispo:0.7,  kMin:2.5, kMax:3.5, kDispo:1},
+  {name:"Broyat vieux / partiellement composté", mvMin:300,  mvMax:400,  nMin:3,   nMax:7,   nDispo:0,    pMin:1,   pMax:3,   pDispo:0.7,  kMin:2.5, kMax:3.5, kDispo:1},
+  {name:"Compost déchets verts",                 mvMin:400,  mvMax:600,  nMin:6,   nMax:12,  nDispo:0.03, pMin:2,   pMax:9,   pDispo:0.5,  kMin:3,   kMax:11,  kDispo:1},
+  {name:"Tonte pelouse fraîche",                 mvMin:350,  mvMax:500,  nMin:5,   nMax:20,  nDispo:0.6,  pMin:7,   pMax:20,  pDispo:0.8,  kMin:11,  kMax:30,  kDispo:1},
+  {name:"Paille / foin",                         mvMin:150,  mvMax:250,  nMin:5,   nMax:9,   nDispo:0,    pMin:1,   pMax:2,   pDispo:0.8,  kMin:8,   kMax:12,  kDispo:1},
+];
+
+const SEL = document.getElementById('mo-select');
+MO_DATA.forEach((m, i) => {
+  const opt = document.createElement('option');
+  opt.value = i; opt.textContent = m.name; SEL.appendChild(opt);
+});
+
+let mode = 'epaisseur', surfaceUnit = 'ha';
+const modeLabels = {
+  epaisseur:'cm', vol_ha:'m³/ha', vol_m2:'l/m²',
+  vol_surface:'m³/surf.', poids_t_surface:'t/surf.',
+  poids_t_ha:'t/ha', poids_kg_m2:'kg/m²', azote:'kgN dispo/ha'
+};
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + m).classList.add('active');
+  document.getElementById('input-unit-label').textContent = modeLabels[m];
+  update();
+}
+
+function setSurfaceUnit(u) {
+  surfaceUnit = u;
+  document.getElementById('btn-ha').classList.toggle('active', u === 'ha');
+  document.getElementById('btn-m2').classList.toggle('active', u === 'm2');
+  document.getElementById('surface-unit-label').textContent = u === 'ha' ? 'ha' : 'm²';
+  update();
+}
+
+function fmt(v) {
+  if (v === null || v === undefined || isNaN(v) || !isFinite(v)) return '–';
+  if (v >= 10000) return Math.round(v).toLocaleString('fr-FR');
+  if (v >= 100)  return Math.round(v);
+  if (v >= 10)   return (Math.round(v * 10) / 10).toLocaleString('fr-FR', {minimumFractionDigits:1, maximumFractionDigits:1});
+  if (v >= 1)    return (Math.round(v * 100) / 100).toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2});
+  return (Math.round(v * 1000) / 1000).toLocaleString('fr-FR', {minimumFractionDigits:3, maximumFractionDigits:3});
+}
+
+function update() {
+  const mo = MO_DATA[SEL.value];
+  const iv = parseFloat(document.getElementById('input-val').value) || 0;
+  const sv = parseFloat(document.getElementById('surface-val').value) || 0;
+  const surfM2 = surfaceUnit === 'ha' ? sv * 10000 : sv;
+  const surfHa = surfM2 / 10000;
+
+  // Badges MO
+  document.getElementById('mo-badges').innerHTML =
+    `<span class="badge badge-mv">MV : ${mo.mvMin}–${mo.mvMax} kg/m³</span>` +
+    `<span class="badge badge-n">N : ${mo.nMin}–${mo.nMax} kgN/t · dispo ${mo.nDispo*100}%</span>` +
+    `<span class="badge badge-p">P : ${mo.pMin}–${mo.pMax} kgP/t</span>` +
+    `<span class="badge badge-k">K : ${mo.kMin}–${mo.kMax} kgK/t</span>`;
+
+  // Calculer poids t/ha min et max à partir du mode d'entrée
+  let pMin = null, pMax = null;
+  if (mode === 'epaisseur') {
+    const vHa = iv / 100 * 10000;
+    pMin = vHa * mo.mvMin / 1000;
+    pMax = vHa * mo.mvMax / 1000;
+  } else if (mode === 'vol_ha') {
+    pMin = iv * mo.mvMin / 1000;
+    pMax = iv * mo.mvMax / 1000;
+  } else if (mode === 'vol_m2') {
+    pMin = iv * 10 * mo.mvMin / 1000;
+    pMax = iv * 10 * mo.mvMax / 1000;
+  } else if (mode === 'vol_surface') {
+    const vHa = surfHa > 0 ? iv / surfHa : 0;
+    pMin = vHa * mo.mvMin / 1000;
+    pMax = vHa * mo.mvMax / 1000;
+  } else if (mode === 'poids_t_surface') {
+    const tHa = surfHa > 0 ? iv / surfHa : 0;
+    pMin = pMax = tHa;
+  } else if (mode === 'poids_t_ha') {
+    pMin = pMax = iv;
+  } else if (mode === 'poids_kg_m2') {
+    pMin = pMax = iv * 10;
+  } else if (mode === 'azote') {
+    if (mo.nDispo > 0) {
+      pMin = mo.nMax > 0 ? iv / (mo.nMax * mo.nDispo) : null;
+      pMax = mo.nMin > 0 ? iv / (mo.nMin * mo.nDispo) : null;
+    }
+  }
+
+  // Conversions depuis poids t/ha
+  const conv = (p, mv) => {
+    if (p === null || mv === 0) return {};
+    const vHa = p * 1000 / mv;
+    return {
+      ep:   vHa / 10000 * 100,
+      vHa:  vHa,
+      vM2:  vHa / 10000 * 1000,
+      vS:   vHa * surfHa,
+      tS:   p * surfHa,
+      tHa:  p,
+      kgM2: p / 10
+    };
+  };
+  const Cmin = conv(pMin, mo.mvMin);
+  const Cmax = conv(pMax, mo.mvMax);
+
+  const hasRange = pMin !== null && pMax !== null && Math.abs((pMax||0) - (pMin||0)) > 0.0001;
+  const rangeVal = (kMin, kMax) => {
+    const a = Cmin[kMin], b = Cmax[kMax];
+    if (a === undefined || b === undefined) return '–';
+    if (hasRange && Math.abs(b - a) > 0.0001) return `${fmt(a)} – ${fmt(b)}`;
+    return fmt(a !== undefined ? a : b);
+  };
+
+  const rows = [
+    {label:'Épaisseur',     unit:'cm',         kMin:'ep',   kMax:'ep'},
+    {label:'Volume',        unit:'m³/ha',       kMin:'vHa',  kMax:'vHa'},
+    {label:'Volume',        unit:'l/m²',        kMin:'vM2',  kMax:'vM2'},
+    {label:'Volume/surf.',  unit:'m³',          kMin:'vS',   kMax:'vS'},
+    {label:'Poids/surf.',   unit:'t',           kMin:'tS',   kMax:'tS'},
+    {label:'Poids',         unit:'t/ha',        kMin:'tHa',  kMax:'tHa'},
+    {label:'Poids',         unit:'kg/m²',       kMin:'kgM2', kMax:'kgM2'},
+  ];
+
+  document.getElementById('results-grid').innerHTML = rows.map(r =>
+    `<div class="res-card">
+      <div class="res-label">${r.label}</div>
+      <div class="res-val">${rangeVal(r.kMin, r.kMax)}</div>
+      <div class="res-unit">${r.unit}</div>
+    </div>`
+  ).join('');
+
+  // NPK
+  const nTMin = pMin !== null ? pMin * mo.nMin : null;
+  const nTMax = pMax !== null ? pMax * mo.nMax : null;
+  const nDMin = pMin !== null ? pMin * mo.nMin * mo.nDispo : null;
+  const nDMax = pMax !== null ? pMax * mo.nMax * mo.nDispo : null;
+  const pDMin = pMin !== null ? pMin * mo.pMin * mo.pDispo : null;
+  const pDMax = pMax !== null ? pMax * mo.pMax * mo.pDispo : null;
+  const kDMin = pMin !== null ? pMin * mo.kMin * mo.kDispo : null;
+  const kDMax = pMax !== null ? pMax * mo.kMax * mo.kDispo : null;
+
+  const rng = (a, b) => {
+    if (a === null) return '–';
+    if (Math.abs((b||0) - (a||0)) < 0.0001) return fmt(a);
+    return `${fmt(a)}<br><span style="font-size:10px;color:var(--text-muted)">à ${fmt(b)}</span>`;
+  };
+
+  document.getElementById('npk-grid').innerHTML = `
+    <div class="npk-card npk-n">
+      <div class="npk-letter">N</div>
+      <div class="npk-val">${rng(nTMin, nTMax)}</div>
+      <div class="npk-sub">N total kgN/ha</div>
+      <div style="margin:4px 0;height:1px;background:var(--green-200)"></div>
+      <div class="npk-val">${rng(nDMin, nDMax)}</div>
+      <div class="npk-sub">N dispo kgN/ha</div>
+    </div>
+    <div class="npk-card npk-p">
+      <div class="npk-letter">P</div>
+      <div class="npk-val">${rng(pDMin, pDMax)}</div>
+      <div class="npk-sub">P dispo kgP/ha</div>
+    </div>
+    <div class="npk-card npk-k">
+      <div class="npk-letter">K</div>
+      <div class="npk-val">${rng(kDMin, kDMax)}</div>
+      <div class="npk-sub">K dispo kgK/ha</div>
+    </div>
+  `;
+}
+
+update();
+</script>
+</body>
+</html>
