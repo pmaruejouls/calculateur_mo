@@ -16,9 +16,9 @@
   --a100: #fdf0d0;
   --b100: #ddeaf9;
   --s100: #f5f2ec; --s200: #e8e3d8;
-  --tm:  #1a1a1a; --tmu: #5a6b5f; --tl: #8a9e92;
-  --bg:  #f2f5f0; --cbg: #ffffff;
-  --r:  14px; --rs: 8px;
+  --tm: #1a1a1a; --tmu: #5a6b5f; --tl: #8a9e92;
+  --bg: #f2f5f0; --cbg: #ffffff;
+  --r: 14px; --rs: 8px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -36,128 +36,145 @@ body {
   background: var(--g800);
   padding: 20px 20px 24px;
   padding-top: calc(20px + env(safe-area-inset-top));
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
-.hdr::before {
-  content: ''; position: absolute;
-  top: -30px; right: -40px;
-  width: 180px; height: 180px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-}
-.hdr::after {
-  content: ''; position: absolute;
-  bottom: -60px; left: -20px;
-  width: 240px; height: 120px;
-  border-radius: 50%;
-  background: rgba(93,184,130,0.08);
-}
-.hdr-lbl { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g400); font-weight: 500; margin-bottom: 6px; }
-.hdr-ttl { font-size: 22px; font-weight: 600; color: #fff; line-height: 1.2; margin-bottom: 4px; }
-.hdr-sub { font-size: 13px; color: var(--g200); font-weight: 300; }
+.hdr::before { content:''; position:absolute; top:-30px; right:-40px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.04); }
+.hdr::after  { content:''; position:absolute; bottom:-60px; left:-20px; width:240px; height:120px; border-radius:50%; background:rgba(93,184,130,0.08); }
+.hdr-lbl { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--g400); font-weight:500; margin-bottom:6px; }
+.hdr-ttl { font-size:22px; font-weight:600; color:#fff; line-height:1.2; margin-bottom:4px; }
+.hdr-sub { font-size:13px; color:var(--g200); font-weight:300; }
 
 /* ── Layout ── */
-.cnt { padding: 16px 16px 32px; max-width: 520px; margin: 0 auto; }
+.cnt { padding:16px 16px 32px; max-width:520px; margin:0 auto; }
 
 .card {
-  background: var(--cbg);
-  border-radius: var(--r);
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 12px rgba(26,74,46,0.08);
+  background: var(--cbg); border-radius: var(--r); padding: 16px;
+  margin-bottom: 12px; box-shadow: 0 2px 12px rgba(26,74,46,0.08);
   animation: su 0.3s ease both;
 }
-.card:nth-child(1) { animation-delay: 0.05s; }
-.card:nth-child(2) { animation-delay: 0.10s; }
-.card:nth-child(3) { animation-delay: 0.15s; }
-.card:nth-child(4) { animation-delay: 0.20s; }
-@keyframes su { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.card:nth-child(1){animation-delay:.05s} .card:nth-child(2){animation-delay:.10s}
+.card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.20s}
+.card:nth-child(5){animation-delay:.25s}
+@keyframes su { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-.clbl { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--tl); font-weight: 500; margin-bottom: 10px; }
+.clbl { font-size:10px; letter-spacing:1.2px; text-transform:uppercase; color:var(--tl); font-weight:500; margin-bottom:10px; }
 
 /* ── Select ── */
-.sel-wrap { position: relative; }
-.sel-wrap::after { content: '▾'; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--g600); pointer-events: none; font-size: 14px; }
+.sel-wrap { position:relative; }
+.sel-wrap::after { content:'▾'; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--g600); pointer-events:none; font-size:14px; }
 select {
-  width: 100%; padding: 12px 36px 12px 14px;
-  border: 1.5px solid var(--s200); border-radius: var(--rs);
-  font-size: 15px; font-family: 'DM Sans', sans-serif; font-weight: 500;
-  color: var(--tm); background: var(--s100); appearance: none; cursor: pointer;
+  width:100%; padding:12px 36px 12px 14px;
+  border:1.5px solid var(--s200); border-radius:var(--rs);
+  font-size:15px; font-family:'DM Sans',sans-serif; font-weight:500;
+  color:var(--tm); background:var(--s100); appearance:none; cursor:pointer;
 }
-select:focus { outline: none; border-color: var(--g500); }
+select:focus { outline:none; border-color:var(--g500); }
 
 /* ── Badges ── */
-.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-.badge { font-size: 11px; font-family: 'DM Mono', monospace; padding: 4px 8px; border-radius: 20px; }
-.bmv { background: var(--g50);  color: var(--g700); }
-.bn  { background: var(--g100); color: var(--g800); }
-.bp  { background: var(--a100); color: #7a5010; }
-.bk  { background: var(--b100); color: #1a4a8a; }
+.badges { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.badge { font-size:11px; font-family:'DM Mono',monospace; padding:4px 8px; border-radius:20px; }
+.bmv { background:var(--g50);  color:var(--g700); }
+.bn  { background:var(--g100); color:var(--g800); }
+.bp  { background:var(--a100); color:#7a5010; }
+.bk  { background:var(--b100); color:#1a4a8a; }
 
 /* ── Toggle 2 cols ── */
-.tog2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
-.tbtn {
-  padding: 10px; border: 1.5px solid var(--s200); border-radius: var(--rs);
-  background: var(--s100); color: var(--tmu);
-  font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500;
-  cursor: pointer; text-align: center;
-}
-.tbtn.active { border-color: var(--g600); background: var(--g50); color: var(--g800); }
+.tog2 { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
+.tbtn { padding:10px; border:1.5px solid var(--s200); border-radius:var(--rs); background:var(--s100); color:var(--tmu); font-size:13px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; text-align:center; }
+.tbtn.active { border-color:var(--g600); background:var(--g50); color:var(--g800); }
 
 /* ── Input row ── */
-.irow { display: flex; align-items: center; gap: 10px; }
-input[type=number] {
-  flex: 1; padding: 12px 14px;
-  border: 1.5px solid var(--s200); border-radius: var(--rs);
-  font-size: 18px; font-family: 'DM Mono', monospace; font-weight: 500;
-  color: var(--tm); background: var(--s100);
-}
-input[type=number]:focus { outline: none; border-color: var(--g500); background: #fff; }
-.upill {
-  padding: 10px 14px; background: var(--g800); color: var(--g200);
-  border-radius: var(--rs); font-size: 13px; font-family: 'DM Mono', monospace;
-  white-space: nowrap; min-width: 80px; text-align: center; font-weight: 500;
-}
+.irow { display:flex; align-items:center; gap:10px; }
+input[type=number] { flex:1; padding:12px 14px; border:1.5px solid var(--s200); border-radius:var(--rs); font-size:18px; font-family:'DM Mono',monospace; font-weight:500; color:var(--tm); background:var(--s100); }
+input[type=number]:focus { outline:none; border-color:var(--g500); background:#fff; }
+.upill { padding:10px 14px; background:var(--g800); color:var(--g200); border-radius:var(--rs); font-size:13px; font-family:'DM Mono',monospace; white-space:nowrap; min-width:80px; text-align:center; font-weight:500; }
 
 /* ── Mode buttons ── */
-.mgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
-.mbtn {
-  padding: 11px 10px; border: 1.5px solid var(--s200); border-radius: var(--rs);
-  background: var(--s100); color: var(--tmu);
-  font-size: 12px; font-family: 'DM Sans', sans-serif; font-weight: 500;
-  cursor: pointer; text-align: center; line-height: 1.3;
-}
-.mbtn.active { border-color: var(--g600); background: var(--g800); color: #fff; }
+.mgrid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
+.mbtn { padding:11px 10px; border:1.5px solid var(--s200); border-radius:var(--rs); background:var(--s100); color:var(--tmu); font-size:12px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; text-align:center; line-height:1.3; }
+.mbtn.active { border-color:var(--g600); background:var(--g800); color:#fff; }
 
 /* ── Result cards ── */
-.rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.rcard { background: var(--s100); border-radius: var(--rs); padding: 10px 12px; border-left: 3px solid var(--g500); }
-.rlbl  { font-size: 11px; color: var(--tl); margin-bottom: 3px; }
-.rval  { font-size: 15px; font-weight: 600; font-family: 'DM Mono', monospace; color: var(--tm); line-height: 1.2; }
-.runit { font-size: 11px; color: var(--tmu); margin-top: 2px; }
+.rgrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.rcard { background:var(--s100); border-radius:var(--rs); padding:10px 12px; border-left:3px solid var(--g500); }
+.rlbl  { font-size:11px; color:var(--tl); margin-bottom:3px; }
+.rval  { font-size:15px; font-weight:600; font-family:'DM Mono',monospace; color:var(--tm); line-height:1.2; }
+.runit { font-size:11px; color:var(--tmu); margin-top:2px; }
 
-/* ── Separator & sub-label ── */
-.sep  { height: 1px; background: var(--s200); margin: 12px 0; }
-.ssub { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--tl); font-weight: 500; margin-bottom: 8px; }
+.sep  { height:1px; background:var(--s200); margin:12px 0; }
+.ssub { font-size:10px; letter-spacing:1.2px; text-transform:uppercase; color:var(--tl); font-weight:500; margin-bottom:8px; }
 
 /* ── NPK ── */
-.npkgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.npkcard { border-radius: var(--rs); padding: 12px 10px; text-align: center; }
-.npkn { background: var(--g100); }
-.npkp { background: var(--a100); }
-.npkk { background: var(--b100); }
-.npkl { font-size: 22px; font-weight: 600; line-height: 1; margin-bottom: 6px; }
-.npkn .npkl { color: var(--g700); }
-.npkp .npkl { color: #8a5c10; }
-.npkk .npkl { color: #3a7cc4; }
-.npkv { font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--tm); line-height: 1.4; }
-.npks { font-size: 10px; color: var(--tl); margin-top: 2px; }
-.npk-sep { height: 1px; background: var(--g200); margin: 4px 0; }
+.npkgrid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:10px; }
+.npkcard { border-radius:var(--rs); padding:12px 10px; text-align:center; }
+.npkn { background:var(--g100); } .npkp { background:var(--a100); } .npkk { background:var(--b100); }
+.npkl { font-size:22px; font-weight:600; line-height:1; margin-bottom:6px; }
+.npkn .npkl { color:var(--g700); } .npkp .npkl { color:#8a5c10; } .npkk .npkl { color:#3a7cc4; }
+.npkv { font-size:12px; font-family:'DM Mono',monospace; font-weight:500; color:var(--tm); line-height:1.4; }
+.npks { font-size:10px; color:var(--tl); margin-top:2px; }
+.npk-sep { height:1px; background:var(--g200); margin:4px 0; }
 
-/* ── Info & footer ── */
-.infonote { background: var(--g50); border: 1px solid var(--g100); border-radius: var(--rs); padding: 10px 12px; font-size: 12px; color: var(--g700); line-height: 1.5; }
-.foot { text-align: center; font-size: 11px; color: var(--tl); padding: 16px 0 8px; line-height: 1.6; }
+.infonote { background:var(--g50); border:1px solid var(--g100); border-radius:var(--rs); padding:10px 12px; font-size:12px; color:var(--g700); line-height:1.5; }
+
+/* ── MO Personnalisée ── */
+.custom-card { border: 1.5px dashed var(--g400); }
+
+.custom-section-title {
+  font-size: 11px; font-weight: 500; color: var(--g700);
+  letter-spacing: 0.5px; text-transform: uppercase;
+  margin: 14px 0 8px; padding-top: 12px;
+  border-top: 1px solid var(--s200);
+}
+.custom-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
+.field-row { margin-bottom: 10px; }
+.field-label { font-size: 12px; color: var(--tmu); margin-bottom: 4px; display: block; }
+
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.field-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+.finput {
+  width: 100%; padding: 10px 12px;
+  border: 1.5px solid var(--s200); border-radius: var(--rs);
+  font-size: 14px; font-family: 'DM Mono', monospace; font-weight: 500;
+  color: var(--tm); background: var(--s100);
+}
+.finput:focus { outline: none; border-color: var(--g500); background: #fff; }
+.finput.name-input { font-family: 'DM Sans', sans-serif; font-size: 15px; }
+
+.field-unit { font-size: 11px; color: var(--tl); margin-top: 3px; }
+
+.btn-add {
+  width: 100%; margin-top: 14px;
+  padding: 13px 16px;
+  background: var(--g800); color: #fff;
+  border: none; border-radius: var(--rs);
+  font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+  cursor: pointer; letter-spacing: 0.3px;
+}
+.btn-add:active { background: var(--g700); }
+.btn-add:disabled { background: var(--s200); color: var(--tl); cursor: not-allowed; }
+
+.custom-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.custom-item {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--g50); border: 1px solid var(--g100);
+  border-radius: var(--rs); padding: 8px 12px;
+}
+.custom-item-name { font-size: 13px; font-weight: 500; color: var(--g800); }
+.custom-item-sub  { font-size: 11px; color: var(--tl); margin-top: 2px; font-family: 'DM Mono', monospace; }
+.btn-del {
+  background: none; border: none; cursor: pointer;
+  color: var(--tl); font-size: 18px; line-height: 1;
+  padding: 2px 4px; border-radius: 4px;
+  flex-shrink: 0; margin-left: 8px;
+}
+.btn-del:hover { color: #c0392b; }
+
+.errmsg { font-size: 12px; color: #c0392b; margin-top: 6px; display: none; }
+
+/* ── Footer ── */
+.foot { text-align:center; font-size:11px; color:var(--tl); padding:16px 0 8px; line-height:1.6; }
 </style>
 </head>
 <body>
@@ -170,12 +187,14 @@ input[type=number]:focus { outline: none; border-color: var(--g500); background:
 
 <div class="cnt">
 
+  <!-- Matière organique -->
   <div class="card">
     <div class="clbl">Matière organique</div>
     <div class="sel-wrap"><select id="mo-sel"></select></div>
     <div class="badges" id="mo-badges"></div>
   </div>
 
+  <!-- Surface -->
   <div class="card">
     <div class="clbl">Surface</div>
     <div class="tog2">
@@ -188,6 +207,7 @@ input[type=number]:focus { outline: none; border-color: var(--g500); background:
     </div>
   </div>
 
+  <!-- Mode de raisonnement -->
   <div class="card">
     <div class="clbl">Je raisonne en…</div>
     <div class="mgrid">
@@ -206,20 +226,110 @@ input[type=number]:focus { outline: none; border-color: var(--g500); background:
     </div>
   </div>
 
+  <!-- Résultats -->
   <div class="card">
     <div class="clbl">Résultats — conversions</div>
     <div class="rgrid" id="res-grid"></div>
     <div class="sep"></div>
     <div class="ssub">Apports minéraux estimés (kgN-P-K / ha)</div>
     <div class="npkgrid" id="npk-grid"></div>
-    <div class="infonote">
-      Fourchette min–max selon la variabilité des teneurs. Le N dispo = azote disponible pour la culture lors de la 1ère année. Ces valeurs sont indicatives.
+    <div class="infonote">Fourchette min–max selon la variabilité des teneurs. Le N dispo = azote disponible pour la culture lors de la 1ère année. Ces valeurs sont indicatives.</div>
+  </div>
+
+  <!-- MO Personnalisée -->
+  <div class="card custom-card">
+    <div class="clbl">Créer une MO personnalisée</div>
+
+    <!-- Nom -->
+    <div class="field-row">
+      <label class="field-label">Nom de la matière organique</label>
+      <input class="finput name-input" type="text" id="c-name" placeholder="Ex : Compost maison">
     </div>
+
+    <!-- Masse volumique -->
+    <div class="custom-section-title">Masse volumique</div>
+    <div class="field-grid field-row">
+      <div>
+        <label class="field-label">Min</label>
+        <input class="finput" type="number" id="c-mv-min" placeholder="400" min="0" inputmode="decimal">
+        <div class="field-unit">kg/m³</div>
+      </div>
+      <div>
+        <label class="field-label">Max</label>
+        <input class="finput" type="number" id="c-mv-max" placeholder="600" min="0" inputmode="decimal">
+        <div class="field-unit">kg/m³</div>
+      </div>
+    </div>
+
+    <!-- Azote N -->
+    <div class="custom-section-title">Azote (N)</div>
+    <div class="field-grid-3 field-row">
+      <div>
+        <label class="field-label">N moyen min</label>
+        <input class="finput" type="number" id="c-n-min" placeholder="5" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgN/t</div>
+      </div>
+      <div>
+        <label class="field-label">N moyen max</label>
+        <input class="finput" type="number" id="c-n-max" placeholder="9" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgN/t</div>
+      </div>
+      <div>
+        <label class="field-label">N dispo 1ère année</label>
+        <input class="finput" type="number" id="c-n-dispo" placeholder="0.1" min="0" max="1" step="0.01" inputmode="decimal">
+        <div class="field-unit">ratio (0–1)</div>
+      </div>
+    </div>
+
+    <!-- Phosphore P -->
+    <div class="custom-section-title">Phosphore (P)</div>
+    <div class="field-grid-3 field-row">
+      <div>
+        <label class="field-label">P moyen min</label>
+        <input class="finput" type="number" id="c-p-min" placeholder="3" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgP/t</div>
+      </div>
+      <div>
+        <label class="field-label">P moyen max</label>
+        <input class="finput" type="number" id="c-p-max" placeholder="5" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgP/t</div>
+      </div>
+      <div>
+        <label class="field-label">P dispo 1ère année</label>
+        <input class="finput" type="number" id="c-p-dispo" placeholder="0.8" min="0" max="1" step="0.01" inputmode="decimal">
+        <div class="field-unit">ratio (0–1)</div>
+      </div>
+    </div>
+
+    <!-- Potassium K -->
+    <div class="custom-section-title">Potassium (K)</div>
+    <div class="field-grid-3 field-row">
+      <div>
+        <label class="field-label">K moyen min</label>
+        <input class="finput" type="number" id="c-k-min" placeholder="5" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgK/t</div>
+      </div>
+      <div>
+        <label class="field-label">K moyen max</label>
+        <input class="finput" type="number" id="c-k-max" placeholder="15" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgK/t</div>
+      </div>
+      <div>
+        <label class="field-label">K dispo 1ère année</label>
+        <input class="finput" type="number" id="c-k-dispo" placeholder="1" min="0" max="1" step="0.01" inputmode="decimal">
+        <div class="field-unit">ratio (0–1)</div>
+      </div>
+    </div>
+
+    <div class="errmsg" id="c-err"></div>
+    <button class="btn-add" id="btn-add-mo">Ajouter cette MO au calculateur</button>
+
+    <div class="custom-list" id="custom-list"></div>
   </div>
 
   <div class="foot">
     V1.3 · Victor Galland – Agribio 05<br>
-    agronomie05@bio-provence.org <br>
+    agronomie05@bio-provence.org · 06 10 26 68 95<br>
     <span style="font-size:10px">CC BY-NC-SA 4.0</span>
   </div>
 
@@ -230,9 +340,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* ─────────────────────────────────────────────────────────────────────
      Base de données MO
-     Colonnes : n=nom  a=mvMin  b=mvMax  c=nMin  d=nMax  e=nDispo(ratio)
-                f=pMin  g=pMax  h=pDispo(ratio)  i=kMin  j=kMax  k=kDispo(ratio)
-     Unités teneurs : kg d'élément / tonne de produit brut
+     a=mvMin  b=mvMax  c=nMin  d=nMax  e=nDispo
+     f=pMin   g=pMax   h=pDispo   i=kMin  j=kMax  k=kDispo
   ───────────────────────────────────────────────────────────────────── */
   var MO = [
     { n:"Fumier bovin frais",                    a:400,  b:500,  c:4,   d:6,   e:0.25, f:2,   g:4,   h:0.8,  i:5,   j:12,  k:1 },
@@ -260,14 +369,25 @@ document.addEventListener('DOMContentLoaded', function () {
     { n:"Paille / foin",                         a:150,  b:250,  c:5,   d:9,   e:0,    f:1,   g:2,   h:0.8,  i:8,   j:12,  k:1 },
   ];
 
+  /* index de la première MO personnalisée (pour distinguer dans la liste) */
+  var CUSTOM_START = MO.length;
+
   /* ── Peupler le select ── */
   var sel = document.getElementById('mo-sel');
-  MO.forEach(function (m, i) {
-    var o = document.createElement('option');
-    o.value = i;
-    o.textContent = m.n;
-    sel.appendChild(o);
-  });
+
+  function rebuildSelect(selectIdx) {
+    sel.innerHTML = '';
+    MO.forEach(function (m, i) {
+      var o = document.createElement('option');
+      o.value = i;
+      o.textContent = (i >= CUSTOM_START ? '★ ' : '') + m.n;
+      sel.appendChild(o);
+    });
+    sel.value = selectIdx !== undefined ? selectIdx : sel.value;
+    update();
+  }
+
+  rebuildSelect(0);
 
   /* ── État ── */
   var mode     = 'epaisseur';
@@ -284,13 +404,11 @@ document.addEventListener('DOMContentLoaded', function () {
     azote:           'kgN dispo/ha'
   };
 
-  /* ── Listeners ── */
+  /* ── Listeners calculateur ── */
   document.querySelectorAll('[data-su]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       surfUnit = btn.dataset.su;
-      document.querySelectorAll('[data-su]').forEach(function (b) {
-        b.classList.toggle('active', b === btn);
-      });
+      document.querySelectorAll('[data-su]').forEach(function (b) { b.classList.toggle('active', b === btn); });
       document.getElementById('surf-unit').textContent = surfUnit === 'ha' ? 'ha' : 'm²';
       update();
     });
@@ -299,9 +417,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('[data-mo]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       mode = btn.dataset.mo;
-      document.querySelectorAll('[data-mo]').forEach(function (b) {
-        b.classList.toggle('active', b === btn);
-      });
+      document.querySelectorAll('[data-mo]').forEach(function (b) { b.classList.toggle('active', b === btn); });
       document.getElementById('in-unit').textContent = LABELS[mode];
       update();
     });
@@ -310,6 +426,84 @@ document.addEventListener('DOMContentLoaded', function () {
   sel.addEventListener('change', update);
   document.getElementById('surf-val').addEventListener('input', update);
   document.getElementById('in-val').addEventListener('input', update);
+
+  /* ── MO Personnalisée : ajout ── */
+  document.getElementById('btn-add-mo').addEventListener('click', function () {
+    var err = document.getElementById('c-err');
+    err.style.display = 'none';
+
+    function v(id) { return parseFloat(document.getElementById(id).value); }
+    function s(id) { return document.getElementById(id).value.trim(); }
+
+    var name   = s('c-name');
+    var mvMin  = v('c-mv-min');
+    var mvMax  = v('c-mv-max');
+    var nMin   = v('c-n-min');
+    var nMax   = v('c-n-max');
+    var nDispo = v('c-n-dispo');
+    var pMin   = v('c-p-min');
+    var pMax   = v('c-p-max');
+    var pDispo = v('c-p-dispo');
+    var kMin   = v('c-k-min');
+    var kMax   = v('c-k-max');
+    var kDispo = v('c-k-dispo');
+
+    /* Validation */
+    if (!name) { showErr('Veuillez saisir un nom.'); return; }
+    if (isNaN(mvMin) || isNaN(mvMax) || mvMin <= 0 || mvMax <= 0) { showErr('Masse volumique invalide.'); return; }
+    if (mvMin > mvMax) { showErr('MV min doit être ≤ MV max.'); return; }
+    if (isNaN(nMin) || isNaN(nMax) || nMin < 0 || nMax < 0) { showErr('Valeurs N invalides.'); return; }
+    if (isNaN(nDispo) || nDispo < 0 || nDispo > 1) { showErr('N dispo doit être entre 0 et 1.'); return; }
+    if (isNaN(pMin) || isNaN(pMax) || pMin < 0 || pMax < 0) { showErr('Valeurs P invalides.'); return; }
+    if (isNaN(pDispo) || pDispo < 0 || pDispo > 1) { showErr('P dispo doit être entre 0 et 1.'); return; }
+    if (isNaN(kMin) || isNaN(kMax) || kMin < 0 || kMax < 0) { showErr('Valeurs K invalides.'); return; }
+    if (isNaN(kDispo) || kDispo < 0 || kDispo > 1) { showErr('K dispo doit être entre 0 et 1.'); return; }
+
+    function showErr(msg) { err.textContent = msg; err.style.display = 'block'; }
+
+    var newMO = { n: name, a: mvMin, b: mvMax, c: nMin, d: nMax, e: nDispo, f: pMin, g: pMax, h: pDispo, i: kMin, j: kMax, k: kDispo, custom: true };
+    MO.push(newMO);
+
+    var newIdx = MO.length - 1;
+    rebuildSelect(newIdx);
+    renderCustomList();
+    clearCustomForm();
+  });
+
+  function clearCustomForm() {
+    ['c-name','c-mv-min','c-mv-max','c-n-min','c-n-max','c-n-dispo',
+     'c-p-min','c-p-max','c-p-dispo','c-k-min','c-k-max','c-k-dispo'].forEach(function (id) {
+      document.getElementById(id).value = '';
+    });
+  }
+
+  function renderCustomList() {
+    var list = document.getElementById('custom-list');
+    var customs = MO.filter(function (m) { return m.custom; });
+    if (customs.length === 0) { list.innerHTML = ''; return; }
+
+    list.innerHTML = customs.map(function (m) {
+      var idx = MO.indexOf(m);
+      return '<div class="custom-item">' +
+               '<div>' +
+                 '<div class="custom-item-name">' + m.n + '</div>' +
+                 '<div class="custom-item-sub">MV\u00a0' + m.a + '–' + m.b + '\u00a0kg/m³ · N\u00a0' + m.c + '–' + m.d + '\u00a0kgN/t · P\u00a0' + m.f + '–' + m.g + '\u00a0kgP/t · K\u00a0' + m.i + '–' + m.j + '\u00a0kgK/t</div>' +
+               '</div>' +
+               '<button class="btn-del" data-idx="' + idx + '" title="Supprimer">&times;</button>' +
+             '</div>';
+    }).join('');
+
+    list.querySelectorAll('.btn-del').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = parseInt(btn.dataset.idx);
+        var currentSel = parseInt(sel.value);
+        MO.splice(idx, 1);
+        var newSel = currentSel === idx ? 0 : (currentSel > idx ? currentSel - 1 : currentSel);
+        rebuildSelect(newSel);
+        renderCustomList();
+      });
+    });
+  }
 
   /* ── Formatage ── */
   function fmt(v) {
@@ -324,125 +518,81 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ── Calcul ── */
   function update() {
     var m      = MO[sel.value];
+    if (!m) return;
     var iv     = parseFloat(document.getElementById('in-val').value)   || 0;
     var sv     = parseFloat(document.getElementById('surf-val').value) || 0;
     var surfM2 = surfUnit === 'ha' ? sv * 10000 : sv;
     var surfHa = surfM2 / 10000;
 
-    /* Badges caractéristiques MO */
+    /* Badges */
     document.getElementById('mo-badges').innerHTML =
       '<span class="badge bmv">MV\u00a0: ' + m.a + '–' + m.b + '\u00a0kg/m³</span>' +
       '<span class="badge bn">N\u00a0: '   + m.c + '–' + m.d + '\u00a0kgN/t · dispo\u00a0' + (m.e * 100) + '%</span>' +
       '<span class="badge bp">P\u00a0: '   + m.f + '–' + m.g + '\u00a0kgP/t</span>' +
       '<span class="badge bk">K\u00a0: '   + m.i + '–' + m.j + '\u00a0kgK/t</span>';
 
-    /* ── Étape 1 : poids t/ha min & max depuis l'entrée ──
-       - modes volume/épaisseur : poids = volume × mv  → min = vol × mvMin, max = vol × mvMax
-       - modes poids             : poids fixe           → pMin = pMax = valeur saisie
-       - mode azote              : poids = objectif / (teneur × coeff)
-                                   → pMin (dose optimiste) = obj / (nMax × nDispo)
-                                   → pMax (dose pessimiste) = obj / (nMin × nDispo)
-    ── */
+    /* Poids t/ha min & max */
     var pMin = null, pMax = null;
 
     if (mode === 'epaisseur') {
-      var volHa = iv / 100 * 10000;              /* cm → m³/ha */
-      pMin = volHa * m.a / 1000;
-      pMax = volHa * m.b / 1000;
-
+      var volHa = iv / 100 * 10000;
+      pMin = volHa * m.a / 1000; pMax = volHa * m.b / 1000;
     } else if (mode === 'vol_ha') {
-      pMin = iv * m.a / 1000;
-      pMax = iv * m.b / 1000;
-
+      pMin = iv * m.a / 1000; pMax = iv * m.b / 1000;
     } else if (mode === 'vol_m2') {
-      pMin = iv * 10 * m.a / 1000;              /* l/m² → m³/ha × 10 */
-      pMax = iv * 10 * m.b / 1000;
-
+      pMin = iv * 10 * m.a / 1000; pMax = iv * 10 * m.b / 1000;
     } else if (mode === 'vol_surface') {
       var volHa2 = surfHa > 0 ? iv / surfHa : 0;
-      pMin = volHa2 * m.a / 1000;
-      pMax = volHa2 * m.b / 1000;
-
+      pMin = volHa2 * m.a / 1000; pMax = volHa2 * m.b / 1000;
     } else if (mode === 'poids_t_surface') {
       var tHa = surfHa > 0 ? iv / surfHa : 0;
-      pMin = tHa;
-      pMax = tHa;
-
+      pMin = tHa; pMax = tHa;
     } else if (mode === 'poids_t_ha') {
-      pMin = iv;
-      pMax = iv;
-
+      pMin = iv; pMax = iv;
     } else if (mode === 'poids_kg_m2') {
-      pMin = iv * 10;
-      pMax = iv * 10;
-
+      pMin = iv * 10; pMax = iv * 10;
     } else if (mode === 'azote') {
-      /* Formule tableur C88/C89 */
       if (m.e > 0) {
-        pMin = m.d > 0 ? iv / (m.d * m.e) : null;  /* dose min : MO riche en N */
-        pMax = m.c > 0 ? iv / (m.c * m.e) : null;  /* dose max : MO pauvre en N */
+        pMin = m.d > 0 ? iv / (m.d * m.e) : null;
+        pMax = m.c > 0 ? iv / (m.c * m.e) : null;
       }
     }
 
-    /* ── Étape 2 : conversions depuis poids t/ha ──
-       Règle des sens d'incertitude sur le volume :
-       - modes volume/épaisseur : volume fixe → pMin vient de mvMin, pMax de mvMax
-         donc volume(pMin, mvMin) = volume(pMax, mvMax) = volume saisi (cohérent)
-       - modes poids et azote   : poids connu → volume = poids / mv
-         le volume MINIMAL correspond au poids/mvMax (MO la plus dense)
-         le volume MAXIMAL correspond au poids/mvMin (MO la moins dense)
-         → Cmin utilise mvMax, Cmax utilise mvMin
-    ── */
+    /* Conversions */
     function conv(p, mv) {
       if (p === null || mv === 0) return {};
-      var v = p * 1000 / mv;  /* volume m³/ha */
-      return {
-        ep:   v / 10000 * 100,    /* épaisseur cm     */
-        vHa:  v,                  /* volume m³/ha     */
-        vM2:  v / 10000 * 1000,   /* volume l/m²      */
-        vS:   v * surfHa,         /* volume m³/surface*/
-        tS:   p * surfHa,         /* poids t/surface  */
-        tHa:  p,                  /* poids t/ha       */
-        kgM2: p / 10              /* poids kg/m²      */
-      };
+      var v = p * 1000 / mv;
+      return { ep: v/10000*100, vHa: v, vM2: v/10000*1000, vS: v*surfHa, tS: p*surfHa, tHa: p, kgM2: p/10 };
     }
 
-    var modesVolFixe = ['epaisseur', 'vol_ha', 'vol_m2', 'vol_surface'];
-    var volFixe = modesVolFixe.indexOf(mode) >= 0;
-
+    var volFixe = ['epaisseur','vol_ha','vol_m2','vol_surface'].indexOf(mode) >= 0;
     var Cmin = volFixe ? conv(pMin, m.a) : conv(pMin, m.b);
     var Cmax = volFixe ? conv(pMax, m.b) : conv(pMax, m.a);
 
-    /* ── Affichage d'une valeur ou fourchette ── */
     function rv(key) {
       var a = Cmin[key], b = Cmax[key];
       if (a === undefined || b === undefined) return '–';
-      /* en mode poids strict, la grandeur poids saisie est une valeur unique */
-      var poidsStrict = ['poids_t_surface', 'poids_t_ha', 'poids_kg_m2'].indexOf(mode) >= 0;
-      if (poidsStrict && ['tS', 'tHa', 'kgM2'].indexOf(key) >= 0) return fmt(a);
+      var poidsStrict = ['poids_t_surface','poids_t_ha','poids_kg_m2'].indexOf(mode) >= 0;
+      if (poidsStrict && ['tS','tHa','kgM2'].indexOf(key) >= 0) return fmt(a);
       if (Math.abs((b || 0) - (a || 0)) > 0.0001) return fmt(a) + ' – ' + fmt(b);
       return fmt(a !== undefined ? a : b);
     }
 
-    /* ── Grille résultats conversions ── */
+    /* Grille résultats */
     var rows = [
-      { l: 'Épaisseur',   u: 'cm',    k: 'ep'   },
-      { l: 'Volume',      u: 'm³/ha', k: 'vHa'  },
-      { l: 'Volume',      u: 'l/m²',  k: 'vM2'  },
-      { l: 'Vol./surf.',  u: 'm³',    k: 'vS'   },
-      { l: 'Poids/surf.', u: 't',     k: 'tS'   },
-      { l: 'Poids',       u: 't/ha',  k: 'tHa'  },
-      { l: 'Poids',       u: 'kg/m²', k: 'kgM2' },
+      { l:'Épaisseur',   u:'cm',    k:'ep'   },
+      { l:'Volume',      u:'m³/ha', k:'vHa'  },
+      { l:'Volume',      u:'l/m²',  k:'vM2'  },
+      { l:'Vol./surf.',  u:'m³',    k:'vS'   },
+      { l:'Poids/surf.', u:'t',     k:'tS'   },
+      { l:'Poids',       u:'t/ha',  k:'tHa'  },
+      { l:'Poids',       u:'kg/m²', k:'kgM2' },
     ];
     document.getElementById('res-grid').innerHTML = rows.map(function (r) {
-      return '<div class="rcard">' +
-               '<div class="rlbl">'  + r.l + '</div>' +
-               '<div class="rval">'  + rv(r.k) + '</div>' +
-               '<div class="runit">' + r.u + '</div>' +
-             '</div>';
+      return '<div class="rcard"><div class="rlbl">' + r.l + '</div><div class="rval">' + rv(r.k) + '</div><div class="runit">' + r.u + '</div></div>';
     }).join('');
 
-    /* ── NPK : calculés depuis pMin/pMax (t/ha) × teneurs ── */
+    /* NPK */
     var nTMin = pMin !== null ? pMin * m.c       : null;
     var nTMax = pMax !== null ? pMax * m.d       : null;
     var nDMin = pMin !== null ? pMin * m.c * m.e : null;
@@ -461,21 +611,17 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('npk-grid').innerHTML =
       '<div class="npkcard npkn">' +
         '<div class="npkl">N</div>' +
-        '<div class="npkv">' + rng(nTMin, nTMax) + '</div>' +
-        '<div class="npks">N total kgN/ha</div>' +
+        '<div class="npkv">' + rng(nTMin, nTMax) + '</div><div class="npks">N total kgN/ha</div>' +
         '<div class="npk-sep"></div>' +
-        '<div class="npkv">' + rng(nDMin, nDMax) + '</div>' +
-        '<div class="npks">N dispo kgN/ha</div>' +
+        '<div class="npkv">' + rng(nDMin, nDMax) + '</div><div class="npks">N dispo kgN/ha</div>' +
       '</div>' +
       '<div class="npkcard npkp">' +
         '<div class="npkl">P</div>' +
-        '<div class="npkv">' + rng(pDMin, pDMax) + '</div>' +
-        '<div class="npks">P dispo kgP/ha</div>' +
+        '<div class="npkv">' + rng(pDMin, pDMax) + '</div><div class="npks">P dispo kgP/ha</div>' +
       '</div>' +
       '<div class="npkcard npkk">' +
         '<div class="npkl">K</div>' +
-        '<div class="npkv">' + rng(kDMin, kDMax) + '</div>' +
-        '<div class="npks">K dispo kgK/ha</div>' +
+        '<div class="npkv">' + rng(kDMin, kDMax) + '</div><div class="npks">K dispo kgK/ha</div>' +
       '</div>';
   }
 
