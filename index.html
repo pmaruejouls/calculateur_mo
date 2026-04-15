@@ -10,15 +10,35 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ── Thème clair (défaut) ── */
 :root {
   --g800: #1a4a2e; --g700: #1f5c38; --g600: #2d7a4f; --g500: #3a9663;
-  --g400: #5db882; --g200: #a8dbbf; --g100: #d4f0e2; --g50:  #eef8f3;
-  --a100: #fdf0d0;
-  --b100: #ddeaf9;
+  --g400: #5db882; --g200: #a8dbbf; --g100: #d4f0e2; --g50: #eef8f3;
+  --a100: #fdf0d0; --a700: #8a5c10;
+  --b100: #ddeaf9; --b700: #1a4a8a;
   --s100: #f5f2ec; --s200: #e8e3d8;
   --tm: #1a1a1a; --tmu: #5a6b5f; --tl: #8a9e92;
-  --bg: #f2f5f0; --cbg: #ffffff;
+  --bg: #f2f5f0; --cbg: #ffffff; --cbg2: #f9f9f7;
+  --border: #e8e3d8;
   --r: 14px; --rs: 8px;
+  --sh: 0 2px 12px rgba(26,74,46,0.08);
+  --hdr-bg: #1a4a2e;
+  --hdr-text: #ffffff;
+}
+
+/* ── Thème sombre ── */
+[data-theme="dark"] {
+  --g800: #2d7a4f; --g700: #3a9663; --g600: #5db882; --g500: #7fd0a0;
+  --g400: #a8dbbf; --g200: #2d4a38; --g100: #1e3828; --g50: #192e22;
+  --a100: #3d2e10; --a700: #f0b84a;
+  --b100: #1a2d4a; --b700: #7ab4f0;
+  --s100: #1e2220; --s200: #2a302c;
+  --tm: #e8ede9; --tmu: #8aaa92; --tl: #5a7462;
+  --bg: #121714; --cbg: #1a1f1c; --cbg2: #1e2420;
+  --border: #2a302c;
+  --sh: 0 2px 16px rgba(0,0,0,0.4);
+  --hdr-bg: #0d1f14;
+  --hdr-text: #e8ede9;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -29,32 +49,56 @@ body {
   color: var(--tm);
   min-height: 100vh;
   padding-bottom: env(safe-area-inset-bottom);
+  transition: background 0.25s, color 0.25s;
 }
 
 /* ── Header ── */
 .hdr {
-  background: var(--g800);
+  background: var(--hdr-bg);
   padding: 20px 20px 24px;
   padding-top: calc(20px + env(safe-area-inset-top));
   position: relative; overflow: hidden;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  transition: background 0.25s;
 }
-.hdr::before { content:''; position:absolute; top:-30px; right:-40px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.04); }
-.hdr::after  { content:''; position:absolute; bottom:-60px; left:-20px; width:240px; height:120px; border-radius:50%; background:rgba(93,184,130,0.08); }
+.hdr::before { content:''; position:absolute; top:-30px; right:-40px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.04); pointer-events:none; }
+.hdr::after  { content:''; position:absolute; bottom:-60px; left:-20px; width:240px; height:120px; border-radius:50%; background:rgba(93,184,130,0.08); pointer-events:none; }
+.hdr-text { position:relative; z-index:1; }
 .hdr-lbl { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--g400); font-weight:500; margin-bottom:6px; }
-.hdr-ttl { font-size:22px; font-weight:600; color:#fff; line-height:1.2; margin-bottom:4px; }
+.hdr-ttl { font-size:22px; font-weight:600; color:var(--hdr-text); line-height:1.2; margin-bottom:4px; }
 .hdr-sub { font-size:13px; color:var(--g200); font-weight:300; }
 
+/* ── Toggle dark mode ── */
+.dark-toggle {
+  position: relative; z-index: 2;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: rgba(255,255,255,0.8);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 4px;
+  transition: background 0.2s;
+}
+.dark-toggle:hover { background: rgba(255,255,255,0.18); }
+.dark-toggle .icon { font-size: 14px; }
+
 /* ── Layout ── */
-.cnt { padding:16px 16px 32px; max-width:520px; margin:0 auto; }
+.cnt { padding: 16px 16px 32px; max-width: 520px; margin: 0 auto; }
 
 .card {
   background: var(--cbg); border-radius: var(--r); padding: 16px;
-  margin-bottom: 12px; box-shadow: 0 2px 12px rgba(26,74,46,0.08);
+  margin-bottom: 12px; box-shadow: var(--sh);
   animation: su 0.3s ease both;
+  border: 0.5px solid var(--border);
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
 }
 .card:nth-child(1){animation-delay:.05s} .card:nth-child(2){animation-delay:.10s}
 .card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.20s}
-.card:nth-child(5){animation-delay:.25s}
 @keyframes su { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
 .clbl { font-size:10px; letter-spacing:1.2px; text-transform:uppercase; color:var(--tl); font-weight:500; margin-bottom:10px; }
@@ -64,9 +108,10 @@ body {
 .sel-wrap::after { content:'▾'; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--g600); pointer-events:none; font-size:14px; }
 select {
   width:100%; padding:12px 36px 12px 14px;
-  border:1.5px solid var(--s200); border-radius:var(--rs);
+  border:1.5px solid var(--border); border-radius:var(--rs);
   font-size:15px; font-family:'DM Sans',sans-serif; font-weight:500;
   color:var(--tm); background:var(--s100); appearance:none; cursor:pointer;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
 }
 select:focus { outline:none; border-color:var(--g500); }
 
@@ -75,33 +120,92 @@ select:focus { outline:none; border-color:var(--g500); }
 .badge { font-size:11px; font-family:'DM Mono',monospace; padding:4px 8px; border-radius:20px; }
 .bmv { background:var(--g50);  color:var(--g700); }
 .bn  { background:var(--g100); color:var(--g800); }
-.bp  { background:var(--a100); color:#7a5010; }
-.bk  { background:var(--b100); color:#1a4a8a; }
+.bp  { background:var(--a100); color:var(--a700); }
+.bk  { background:var(--b100); color:var(--b700); }
+
+/* ── Bouton créer MO ── */
+.btn-create-mo {
+  margin-top: 12px; width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: 1.5px dashed var(--g500);
+  border-radius: var(--rs);
+  color: var(--g600);
+  font-size: 13px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+  cursor: pointer; text-align: center;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-create-mo:hover { background: var(--g50); }
+
+/* ── Panneau MO personnalisée (overlay) ── */
+.custom-panel {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.45);
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+.custom-panel.open { display: flex; }
+
+.custom-inner {
+  background: var(--cbg);
+  border-radius: var(--r) var(--r) 0 0;
+  width: 100%; max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  position: relative;
+  animation: slideUp 0.28s ease both;
+  transition: background 0.25s;
+}
+@keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+.custom-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.custom-title { font-size:15px; font-weight:600; color:var(--tm); }
+.btn-close {
+  background: var(--s100); border: none; border-radius: 50%;
+  width: 28px; height: 28px;
+  cursor: pointer; font-size: 16px; color: var(--tmu);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.btn-close:hover { background: var(--s200); }
 
 /* ── Toggle 2 cols ── */
 .tog2 { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
-.tbtn { padding:10px; border:1.5px solid var(--s200); border-radius:var(--rs); background:var(--s100); color:var(--tmu); font-size:13px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; text-align:center; }
+.tbtn { padding:10px; border:1.5px solid var(--border); border-radius:var(--rs); background:var(--s100); color:var(--tmu); font-size:13px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; text-align:center; transition: all 0.15s; }
 .tbtn.active { border-color:var(--g600); background:var(--g50); color:var(--g800); }
 
 /* ── Input row ── */
 .irow { display:flex; align-items:center; gap:10px; }
-input[type=number] { flex:1; padding:12px 14px; border:1.5px solid var(--s200); border-radius:var(--rs); font-size:18px; font-family:'DM Mono',monospace; font-weight:500; color:var(--tm); background:var(--s100); }
-input[type=number]:focus { outline:none; border-color:var(--g500); background:#fff; }
+input[type=number], input[type=text] {
+  padding:12px 14px; border:1.5px solid var(--border); border-radius:var(--rs);
+  font-size:18px; font-family:'DM Mono',monospace; font-weight:500;
+  color:var(--tm); background:var(--s100);
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+input[type=number] { flex:1; }
+input[type=number]:focus, input[type=text]:focus { outline:none; border-color:var(--g500); background:var(--cbg); }
 .upill { padding:10px 14px; background:var(--g800); color:var(--g200); border-radius:var(--rs); font-size:13px; font-family:'DM Mono',monospace; white-space:nowrap; min-width:80px; text-align:center; font-weight:500; }
 
 /* ── Mode buttons ── */
 .mgrid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px; }
-.mbtn { padding:11px 10px; border:1.5px solid var(--s200); border-radius:var(--rs); background:var(--s100); color:var(--tmu); font-size:12px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; text-align:center; line-height:1.3; }
+.mbtn { padding:11px 10px; border:1.5px solid var(--border); border-radius:var(--rs); background:var(--s100); color:var(--tmu); font-size:12px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; text-align:center; line-height:1.3; transition: all 0.15s; }
 .mbtn.active { border-color:var(--g600); background:var(--g800); color:#fff; }
 
 /* ── Result cards ── */
 .rgrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.rcard { background:var(--s100); border-radius:var(--rs); padding:10px 12px; border-left:3px solid var(--g500); }
+.rcard { background:var(--s100); border-radius:var(--rs); padding:10px 12px; border-left:3px solid var(--g500); transition: background 0.25s; }
 .rlbl  { font-size:11px; color:var(--tl); margin-bottom:3px; }
 .rval  { font-size:15px; font-weight:600; font-family:'DM Mono',monospace; color:var(--tm); line-height:1.2; }
 .runit { font-size:11px; color:var(--tmu); margin-top:2px; }
 
-.sep  { height:1px; background:var(--s200); margin:12px 0; }
+.sep  { height:1px; background:var(--border); margin:12px 0; }
 .ssub { font-size:10px; letter-spacing:1.2px; text-transform:uppercase; color:var(--tl); font-weight:500; margin-bottom:8px; }
 
 /* ── NPK ── */
@@ -109,69 +213,58 @@ input[type=number]:focus { outline:none; border-color:var(--g500); background:#f
 .npkcard { border-radius:var(--rs); padding:12px 10px; text-align:center; }
 .npkn { background:var(--g100); } .npkp { background:var(--a100); } .npkk { background:var(--b100); }
 .npkl { font-size:22px; font-weight:600; line-height:1; margin-bottom:6px; }
-.npkn .npkl { color:var(--g700); } .npkp .npkl { color:#8a5c10; } .npkk .npkl { color:#3a7cc4; }
+.npkn .npkl { color:var(--g700); } .npkp .npkl { color:var(--a700); } .npkk .npkl { color:var(--b700); }
 .npkv { font-size:12px; font-family:'DM Mono',monospace; font-weight:500; color:var(--tm); line-height:1.4; }
 .npks { font-size:10px; color:var(--tl); margin-top:2px; }
 .npk-sep { height:1px; background:var(--g200); margin:4px 0; }
 
-.infonote { background:var(--g50); border:1px solid var(--g100); border-radius:var(--rs); padding:10px 12px; font-size:12px; color:var(--g700); line-height:1.5; }
+.infonote { background:var(--g50); border:1px solid var(--g100); border-radius:var(--rs); padding:10px 12px; font-size:12px; color:var(--g700); line-height:1.5; transition: background 0.25s; }
 
-/* ── MO Personnalisée ── */
-.custom-card { border: 1.5px dashed var(--g400); }
-
-.custom-section-title {
-  font-size: 11px; font-weight: 500; color: var(--g700);
-  letter-spacing: 0.5px; text-transform: uppercase;
-  margin: 14px 0 8px; padding-top: 12px;
-  border-top: 1px solid var(--s200);
+/* ── Formulaire MO perso ── */
+.csec-title {
+  font-size:11px; font-weight:500; color:var(--g600);
+  letter-spacing:0.5px; text-transform:uppercase;
+  margin:14px 0 8px; padding-top:12px;
+  border-top:1px solid var(--border);
 }
-.custom-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+.csec-title:first-of-type { margin-top:0; padding-top:0; border-top:none; }
 
-.field-row { margin-bottom: 10px; }
-.field-label { font-size: 12px; color: var(--tmu); margin-bottom: 4px; display: block; }
+.field-row { margin-bottom:10px; }
+.field-label { font-size:12px; color:var(--tmu); margin-bottom:4px; display:block; }
+.field-unit { font-size:11px; color:var(--tl); margin-top:3px; }
 
-.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.field-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.fgrid2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.fgrid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
 
 .finput {
-  width: 100%; padding: 10px 12px;
-  border: 1.5px solid var(--s200); border-radius: var(--rs);
-  font-size: 14px; font-family: 'DM Mono', monospace; font-weight: 500;
-  color: var(--tm); background: var(--s100);
+  width:100%; padding:10px 12px;
+  border:1.5px solid var(--border); border-radius:var(--rs);
+  font-size:14px; font-family:'DM Mono',monospace; font-weight:500;
+  color:var(--tm); background:var(--s100);
+  transition: background 0.25s, border-color 0.25s;
 }
-.finput:focus { outline: none; border-color: var(--g500); background: #fff; }
-.finput.name-input { font-family: 'DM Sans', sans-serif; font-size: 15px; }
+.finput:focus { outline:none; border-color:var(--g500); background:var(--cbg); }
+.finput.name-input { font-family:'DM Sans',sans-serif; font-size:15px; }
 
-.field-unit { font-size: 11px; color: var(--tl); margin-top: 3px; }
+.errmsg { font-size:12px; color:#c0392b; margin-top:6px; display:none; }
 
 .btn-add {
-  width: 100%; margin-top: 14px;
-  padding: 13px 16px;
-  background: var(--g800); color: #fff;
-  border: none; border-radius: var(--rs);
-  font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500;
-  cursor: pointer; letter-spacing: 0.3px;
+  width:100%; margin-top:14px;
+  padding:13px 16px;
+  background:var(--g800); color:#fff;
+  border:none; border-radius:var(--rs);
+  font-size:14px; font-family:'DM Sans',sans-serif; font-weight:500;
+  cursor:pointer;
+  transition: background 0.15s;
 }
-.btn-add:active { background: var(--g700); }
-.btn-add:disabled { background: var(--s200); color: var(--tl); cursor: not-allowed; }
+.btn-add:hover { background:var(--g700); }
 
-.custom-list { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
-.custom-item {
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--g50); border: 1px solid var(--g100);
-  border-radius: var(--rs); padding: 8px 12px;
-}
-.custom-item-name { font-size: 13px; font-weight: 500; color: var(--g800); }
-.custom-item-sub  { font-size: 11px; color: var(--tl); margin-top: 2px; font-family: 'DM Mono', monospace; }
-.btn-del {
-  background: none; border: none; cursor: pointer;
-  color: var(--tl); font-size: 18px; line-height: 1;
-  padding: 2px 4px; border-radius: 4px;
-  flex-shrink: 0; margin-left: 8px;
-}
-.btn-del:hover { color: #c0392b; }
-
-.errmsg { font-size: 12px; color: #c0392b; margin-top: 6px; display: none; }
+.custom-list { margin-top:12px; display:flex; flex-direction:column; gap:6px; }
+.custom-item { display:flex; align-items:center; justify-content:space-between; background:var(--g50); border:1px solid var(--g100); border-radius:var(--rs); padding:8px 12px; }
+.custom-item-name { font-size:13px; font-weight:500; color:var(--g800); }
+.custom-item-sub  { font-size:11px; color:var(--tl); margin-top:2px; font-family:'DM Mono',monospace; }
+.btn-del { background:none; border:none; cursor:pointer; color:var(--tl); font-size:18px; line-height:1; padding:2px 6px; border-radius:4px; flex-shrink:0; margin-left:8px; }
+.btn-del:hover { color:#c0392b; }
 
 /* ── Footer ── */
 .foot { text-align:center; font-size:11px; color:var(--tl); padding:16px 0 8px; line-height:1.6; }
@@ -179,10 +272,17 @@ input[type=number]:focus { outline:none; border-color:var(--g500); background:#f
 </head>
 <body>
 
+<!-- Header -->
 <div class="hdr">
-  <div class="hdr-lbl">Maraîchage bio · Outil terrain</div>
-  <div class="hdr-ttl">Calculateur MO</div>
-  <div class="hdr-sub">Convertisseur doses &amp; apports N·P·K</div>
+  <div class="hdr-text">
+    <div class="hdr-lbl">Maraîchage bio · Outil terrain</div>
+    <div class="hdr-ttl">Calculateur MO</div>
+    <div class="hdr-sub">Convertisseur doses &amp; apports N·P·K</div>
+  </div>
+  <button class="dark-toggle" id="dark-toggle" title="Changer de thème">
+    <span class="icon" id="dark-icon">🌙</span>
+    <span id="dark-label">Sombre</span>
+  </button>
 </div>
 
 <div class="cnt">
@@ -192,6 +292,7 @@ input[type=number]:focus { outline:none; border-color:var(--g500); background:#f
     <div class="clbl">Matière organique</div>
     <div class="sel-wrap"><select id="mo-sel"></select></div>
     <div class="badges" id="mo-badges"></div>
+    <button class="btn-create-mo" id="btn-open-custom">+ Créer une MO personnalisée</button>
   </div>
 
   <!-- Surface -->
@@ -236,113 +337,108 @@ input[type=number]:focus { outline:none; border-color:var(--g500); background:#f
     <div class="infonote">Fourchette min–max selon la variabilité des teneurs. Le N dispo = azote disponible pour la culture lors de la 1ère année. Ces valeurs sont indicatives.</div>
   </div>
 
-  <!-- MO Personnalisée -->
-  <div class="card custom-card">
-    <div class="clbl">Créer une MO personnalisée</div>
-
-    <!-- Nom -->
-    <div class="field-row">
-      <label class="field-label">Nom de la matière organique</label>
-      <input class="finput name-input" type="text" id="c-name" placeholder="Ex : Compost maison">
-    </div>
-
-    <!-- Masse volumique -->
-    <div class="custom-section-title">Masse volumique</div>
-    <div class="field-grid field-row">
-      <div>
-        <label class="field-label">Min</label>
-        <input class="finput" type="number" id="c-mv-min" placeholder="400" min="0" inputmode="decimal">
-        <div class="field-unit">kg/m³</div>
-      </div>
-      <div>
-        <label class="field-label">Max</label>
-        <input class="finput" type="number" id="c-mv-max" placeholder="600" min="0" inputmode="decimal">
-        <div class="field-unit">kg/m³</div>
-      </div>
-    </div>
-
-    <!-- Azote N -->
-    <div class="custom-section-title">Azote (N)</div>
-    <div class="field-grid-3 field-row">
-      <div>
-        <label class="field-label">N moyen min</label>
-        <input class="finput" type="number" id="c-n-min" placeholder="5" min="0" step="0.1" inputmode="decimal">
-        <div class="field-unit">kgN/t</div>
-      </div>
-      <div>
-        <label class="field-label">N moyen max</label>
-        <input class="finput" type="number" id="c-n-max" placeholder="9" min="0" step="0.1" inputmode="decimal">
-        <div class="field-unit">kgN/t</div>
-      </div>
-      <div>
-        <label class="field-label">N dispo 1ère année</label>
-        <input class="finput" type="number" id="c-n-dispo" placeholder="0.1" min="0" max="1" step="0.01" inputmode="decimal">
-        <div class="field-unit">ratio (0–1)</div>
-      </div>
-    </div>
-
-    <!-- Phosphore P -->
-    <div class="custom-section-title">Phosphore (P)</div>
-    <div class="field-grid-3 field-row">
-      <div>
-        <label class="field-label">P moyen min</label>
-        <input class="finput" type="number" id="c-p-min" placeholder="3" min="0" step="0.1" inputmode="decimal">
-        <div class="field-unit">kgP/t</div>
-      </div>
-      <div>
-        <label class="field-label">P moyen max</label>
-        <input class="finput" type="number" id="c-p-max" placeholder="5" min="0" step="0.1" inputmode="decimal">
-        <div class="field-unit">kgP/t</div>
-      </div>
-      <div>
-        <label class="field-label">P dispo 1ère année</label>
-        <input class="finput" type="number" id="c-p-dispo" placeholder="0.8" min="0" max="1" step="0.01" inputmode="decimal">
-        <div class="field-unit">ratio (0–1)</div>
-      </div>
-    </div>
-
-    <!-- Potassium K -->
-    <div class="custom-section-title">Potassium (K)</div>
-    <div class="field-grid-3 field-row">
-      <div>
-        <label class="field-label">K moyen min</label>
-        <input class="finput" type="number" id="c-k-min" placeholder="5" min="0" step="0.1" inputmode="decimal">
-        <div class="field-unit">kgK/t</div>
-      </div>
-      <div>
-        <label class="field-label">K moyen max</label>
-        <input class="finput" type="number" id="c-k-max" placeholder="15" min="0" step="0.1" inputmode="decimal">
-        <div class="field-unit">kgK/t</div>
-      </div>
-      <div>
-        <label class="field-label">K dispo 1ère année</label>
-        <input class="finput" type="number" id="c-k-dispo" placeholder="1" min="0" max="1" step="0.01" inputmode="decimal">
-        <div class="field-unit">ratio (0–1)</div>
-      </div>
-    </div>
-
-    <div class="errmsg" id="c-err"></div>
-    <button class="btn-add" id="btn-add-mo">Ajouter cette MO au calculateur</button>
-
-    <div class="custom-list" id="custom-list"></div>
-  </div>
-
   <div class="foot">
     V1.3 · Victor Galland – Agribio 05<br>
-    agronomie05@bio-provence.org · 06 10 26 68 95<br>
+    agronomie05@bio-provence.org<br>
     <span style="font-size:10px">CC BY-NC-SA 4.0</span>
   </div>
 
 </div>
 
+<!-- Panneau MO personnalisée -->
+<div class="custom-panel" id="custom-panel">
+  <div class="custom-inner">
+    <div class="custom-header">
+      <div class="custom-title">Créer une MO personnalisée</div>
+      <button class="btn-close" id="btn-close-custom" title="Fermer">✕</button>
+    </div>
+
+    <!-- Nom -->
+    <div class="field-row">
+      <label class="field-label">Nom de la matière organique</label>
+      <input class="finput name-input" type="text" id="c-name" placeholder="Ex : Compost maison" style="width:100%;font-size:15px;">
+    </div>
+
+    <!-- Masse volumique -->
+    <div class="csec-title">Masse volumique</div>
+    <div class="field-row">
+      <label class="field-label">Masse volumique moyenne</label>
+      <input class="finput" type="number" id="c-mv" placeholder="500" min="0" inputmode="decimal" style="width:100%;">
+      <div class="field-unit">kg/m³</div>
+    </div>
+
+    <!-- Azote -->
+    <div class="csec-title">Azote (N)</div>
+    <div class="fgrid2 field-row">
+      <div>
+        <label class="field-label">N moyen</label>
+        <input class="finput" type="number" id="c-n" placeholder="7" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgN/t produit brut</div>
+      </div>
+      <div>
+        <label class="field-label">N dispo 1ère année</label>
+        <input class="finput" type="number" id="c-n-dispo" placeholder="25" min="0" max="100" step="1" inputmode="decimal">
+        <div class="field-unit">%</div>
+      </div>
+    </div>
+
+    <!-- Phosphore -->
+    <div class="csec-title">Phosphore (P)</div>
+    <div class="fgrid2 field-row">
+      <div>
+        <label class="field-label">P moyen</label>
+        <input class="finput" type="number" id="c-p" placeholder="4" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgP/t produit brut</div>
+      </div>
+      <div>
+        <label class="field-label">P dispo 1ère année</label>
+        <input class="finput" type="number" id="c-p-dispo" placeholder="80" min="0" max="100" step="1" inputmode="decimal">
+        <div class="field-unit">%</div>
+      </div>
+    </div>
+
+    <!-- Potassium -->
+    <div class="csec-title">Potassium (K)</div>
+    <div class="fgrid2 field-row">
+      <div>
+        <label class="field-label">K moyen</label>
+        <input class="finput" type="number" id="c-k" placeholder="10" min="0" step="0.1" inputmode="decimal">
+        <div class="field-unit">kgK/t produit brut</div>
+      </div>
+      <div>
+        <label class="field-label">K dispo 1ère année</label>
+        <input class="finput" type="number" id="c-k-dispo" placeholder="100" min="0" max="100" step="1" inputmode="decimal">
+        <div class="field-unit">%</div>
+      </div>
+    </div>
+
+    <div class="errmsg" id="c-err"></div>
+    <button class="btn-add" id="btn-add-mo">Ajouter au calculateur</button>
+
+    <div class="custom-list" id="custom-list"></div>
+  </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ─────────────────────────────────────────────────────────────────────
-     Base de données MO
-     a=mvMin  b=mvMax  c=nMin  d=nMax  e=nDispo
-     f=pMin   g=pMax   h=pDispo   i=kMin  j=kMax  k=kDispo
-  ───────────────────────────────────────────────────────────────────── */
+  /* ─── Thème sombre ─── */
+  var darkMode = false;
+  var toggleBtn   = document.getElementById('dark-toggle');
+  var darkIcon    = document.getElementById('dark-icon');
+  var darkLabel   = document.getElementById('dark-label');
+
+  toggleBtn.addEventListener('click', function () {
+    darkMode = !darkMode;
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : '');
+    darkIcon.textContent  = darkMode ? '☀️' : '🌙';
+    darkLabel.textContent = darkMode ? 'Clair' : 'Sombre';
+  });
+
+  /* ─── Base de données MO ───────────────────────────────────────────
+     a=mvMin  b=mvMax  c=nMin  d=nMax  e=nDispo(ratio)
+     f=pMin   g=pMax   h=pDispo(ratio)   i=kMin  j=kMax  k=kDispo(ratio)
+  ─────────────────────────────────────────────────────────────────── */
   var MO = [
     { n:"Fumier bovin frais",                    a:400,  b:500,  c:4,   d:6,   e:0.25, f:2,   g:4,   h:0.8,  i:5,   j:12,  k:1 },
     { n:"Fumier bovin vieux",                    a:500,  b:800,  c:4,   d:6,   e:0.2,  f:2,   g:4,   h:0.8,  i:5,   j:12,  k:1 },
@@ -369,13 +465,13 @@ document.addEventListener('DOMContentLoaded', function () {
     { n:"Paille / foin",                         a:150,  b:250,  c:5,   d:9,   e:0,    f:1,   g:2,   h:0.8,  i:8,   j:12,  k:1 },
   ];
 
-  /* index de la première MO personnalisée (pour distinguer dans la liste) */
   var CUSTOM_START = MO.length;
 
-  /* ── Peupler le select ── */
+  /* ─── Select ─── */
   var sel = document.getElementById('mo-sel');
 
-  function rebuildSelect(selectIdx) {
+  function rebuildSelect(idx) {
+    var prev = idx !== undefined ? idx : parseInt(sel.value) || 0;
     sel.innerHTML = '';
     MO.forEach(function (m, i) {
       var o = document.createElement('option');
@@ -383,28 +479,20 @@ document.addEventListener('DOMContentLoaded', function () {
       o.textContent = (i >= CUSTOM_START ? '★ ' : '') + m.n;
       sel.appendChild(o);
     });
-    sel.value = selectIdx !== undefined ? selectIdx : sel.value;
+    sel.value = Math.min(prev, MO.length - 1);
     update();
   }
 
   rebuildSelect(0);
 
-  /* ── État ── */
-  var mode     = 'epaisseur';
-  var surfUnit = 'ha';
-
+  /* ─── État ─── */
+  var mode = 'epaisseur', surfUnit = 'ha';
   var LABELS = {
-    epaisseur:       'cm',
-    vol_ha:          'm³/ha',
-    vol_m2:          'l/m²',
-    vol_surface:     'm³/surface',
-    poids_t_surface: 't/surface',
-    poids_t_ha:      't/ha',
-    poids_kg_m2:     'kg/m²',
-    azote:           'kgN dispo/ha'
+    epaisseur:'cm', vol_ha:'m³/ha', vol_m2:'l/m²', vol_surface:'m³/surface',
+    poids_t_surface:'t/surface', poids_t_ha:'t/ha', poids_kg_m2:'kg/m²', azote:'kgN dispo/ha'
   };
 
-  /* ── Listeners calculateur ── */
+  /* ─── Listeners calculateur ─── */
   document.querySelectorAll('[data-su]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       surfUnit = btn.dataset.su;
@@ -427,98 +515,120 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('surf-val').addEventListener('input', update);
   document.getElementById('in-val').addEventListener('input', update);
 
-  /* ── MO Personnalisée : ajout ── */
+  /* ─── Panneau MO perso : ouverture/fermeture ─── */
+  var panel = document.getElementById('custom-panel');
+
+  document.getElementById('btn-open-custom').addEventListener('click', function () {
+    panel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closePanel() {
+    panel.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('btn-close-custom').addEventListener('click', closePanel);
+  panel.addEventListener('click', function (e) {
+    if (e.target === panel) closePanel();
+  });
+
+  /* ─── Ajout MO perso ─── */
   document.getElementById('btn-add-mo').addEventListener('click', function () {
     var err = document.getElementById('c-err');
     err.style.display = 'none';
 
-    function v(id) { return parseFloat(document.getElementById(id).value); }
-    function s(id) { return document.getElementById(id).value.trim(); }
+    function fv(id) { return parseFloat(document.getElementById(id).value); }
+    function fs(id) { return document.getElementById(id).value.trim(); }
 
-    var name   = s('c-name');
-    var mvMin  = v('c-mv-min');
-    var mvMax  = v('c-mv-max');
-    var nMin   = v('c-n-min');
-    var nMax   = v('c-n-max');
-    var nDispo = v('c-n-dispo');
-    var pMin   = v('c-p-min');
-    var pMax   = v('c-p-max');
-    var pDispo = v('c-p-dispo');
-    var kMin   = v('c-k-min');
-    var kMax   = v('c-k-max');
-    var kDispo = v('c-k-dispo');
-
-    /* Validation */
-    if (!name) { showErr('Veuillez saisir un nom.'); return; }
-    if (isNaN(mvMin) || isNaN(mvMax) || mvMin <= 0 || mvMax <= 0) { showErr('Masse volumique invalide.'); return; }
-    if (mvMin > mvMax) { showErr('MV min doit être ≤ MV max.'); return; }
-    if (isNaN(nMin) || isNaN(nMax) || nMin < 0 || nMax < 0) { showErr('Valeurs N invalides.'); return; }
-    if (isNaN(nDispo) || nDispo < 0 || nDispo > 1) { showErr('N dispo doit être entre 0 et 1.'); return; }
-    if (isNaN(pMin) || isNaN(pMax) || pMin < 0 || pMax < 0) { showErr('Valeurs P invalides.'); return; }
-    if (isNaN(pDispo) || pDispo < 0 || pDispo > 1) { showErr('P dispo doit être entre 0 et 1.'); return; }
-    if (isNaN(kMin) || isNaN(kMax) || kMin < 0 || kMax < 0) { showErr('Valeurs K invalides.'); return; }
-    if (isNaN(kDispo) || kDispo < 0 || kDispo > 1) { showErr('K dispo doit être entre 0 et 1.'); return; }
+    var name   = fs('c-name');
+    var mv     = fv('c-mv');
+    var nMoy   = fv('c-n');
+    var nDPct  = fv('c-n-dispo');
+    var pMoy   = fv('c-p');
+    var pDPct  = fv('c-p-dispo');
+    var kMoy   = fv('c-k');
+    var kDPct  = fv('c-k-dispo');
 
     function showErr(msg) { err.textContent = msg; err.style.display = 'block'; }
 
-    var newMO = { n: name, a: mvMin, b: mvMax, c: nMin, d: nMax, e: nDispo, f: pMin, g: pMax, h: pDispo, i: kMin, j: kMax, k: kDispo, custom: true };
-    MO.push(newMO);
+    if (!name)                              { showErr('Veuillez saisir un nom.'); return; }
+    if (isNaN(mv) || mv <= 0)              { showErr('Masse volumique invalide (doit être > 0).'); return; }
+    if (isNaN(nMoy) || nMoy < 0)           { showErr('Valeur N invalide.'); return; }
+    if (isNaN(nDPct) || nDPct < 0 || nDPct > 100) { showErr('N dispo doit être entre 0 et 100 %.'); return; }
+    if (isNaN(pMoy) || pMoy < 0)           { showErr('Valeur P invalide.'); return; }
+    if (isNaN(pDPct) || pDPct < 0 || pDPct > 100) { showErr('P dispo doit être entre 0 et 100 %.'); return; }
+    if (isNaN(kMoy) || kMoy < 0)           { showErr('Valeur K invalide.'); return; }
+    if (isNaN(kDPct) || kDPct < 0 || kDPct > 100) { showErr('K dispo doit être entre 0 et 100 %.'); return; }
 
-    var newIdx = MO.length - 1;
-    rebuildSelect(newIdx);
+    /* Valeur unique → min = max */
+    MO.push({
+      n: name, custom: true,
+      a: mv,    b: mv,
+      c: nMoy,  d: nMoy,  e: nDPct / 100,
+      f: pMoy,  g: pMoy,  h: pDPct / 100,
+      i: kMoy,  j: kMoy,  k: kDPct / 100
+    });
+
+    rebuildSelect(MO.length - 1);
     renderCustomList();
-    clearCustomForm();
+    clearForm();
+    closePanel();
   });
 
-  function clearCustomForm() {
-    ['c-name','c-mv-min','c-mv-max','c-n-min','c-n-max','c-n-dispo',
-     'c-p-min','c-p-max','c-p-dispo','c-k-min','c-k-max','c-k-dispo'].forEach(function (id) {
+  function clearForm() {
+    ['c-name','c-mv','c-n','c-n-dispo','c-p','c-p-dispo','c-k','c-k-dispo'].forEach(function (id) {
       document.getElementById(id).value = '';
     });
+    document.getElementById('c-err').style.display = 'none';
   }
 
   function renderCustomList() {
     var list = document.getElementById('custom-list');
     var customs = MO.filter(function (m) { return m.custom; });
-    if (customs.length === 0) { list.innerHTML = ''; return; }
+    if (!customs.length) { list.innerHTML = ''; return; }
 
-    list.innerHTML = customs.map(function (m) {
-      var idx = MO.indexOf(m);
-      return '<div class="custom-item">' +
-               '<div>' +
-                 '<div class="custom-item-name">' + m.n + '</div>' +
-                 '<div class="custom-item-sub">MV\u00a0' + m.a + '–' + m.b + '\u00a0kg/m³ · N\u00a0' + m.c + '–' + m.d + '\u00a0kgN/t · P\u00a0' + m.f + '–' + m.g + '\u00a0kgP/t · K\u00a0' + m.i + '–' + m.j + '\u00a0kgK/t</div>' +
-               '</div>' +
-               '<button class="btn-del" data-idx="' + idx + '" title="Supprimer">&times;</button>' +
-             '</div>';
-    }).join('');
+    list.innerHTML = '<div style="font-size:11px;color:var(--tl);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">MO ajoutées</div>' +
+      customs.map(function (m) {
+        var idx = MO.indexOf(m);
+        return '<div class="custom-item">' +
+          '<div>' +
+            '<div class="custom-item-name">' + m.n + '</div>' +
+            '<div class="custom-item-sub">MV\u00a0' + m.a + '\u00a0kg/m³ · N\u00a0' + m.c + '\u00a0kgN/t · P\u00a0' + m.f + '\u00a0kgP/t · K\u00a0' + m.i + '\u00a0kgK/t</div>' +
+          '</div>' +
+          '<button class="btn-del" data-idx="' + idx + '" title="Supprimer">&times;</button>' +
+        '</div>';
+      }).join('');
 
     list.querySelectorAll('.btn-del').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var idx = parseInt(btn.dataset.idx);
-        var currentSel = parseInt(sel.value);
+        var cur = parseInt(sel.value);
         MO.splice(idx, 1);
-        var newSel = currentSel === idx ? 0 : (currentSel > idx ? currentSel - 1 : currentSel);
-        rebuildSelect(newSel);
+        rebuildSelect(cur === idx ? 0 : (cur > idx ? cur - 1 : cur));
         renderCustomList();
       });
     });
   }
 
-  /* ── Formatage ── */
-  function fmt(v) {
+  /* ─── Formatage ─── */
+  /* Toutes les valeurs utilisent la locale fr-FR → virgule comme séparateur décimal */
+  function fmt(v, isEp) {
     if (v === null || v === undefined || isNaN(v) || !isFinite(v)) return '–';
+    /* Épaisseur : arrondie à l'unité, pas de décimales */
+    if (isEp) return Math.round(v).toLocaleString('fr-FR');
     if (v >= 10000) return Math.round(v).toLocaleString('fr-FR');
     if (v >= 100)   return String(Math.round(v));
-    if (v >= 10)    return (Math.round(v * 10)   / 10  ).toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-    if (v >= 1)     return (Math.round(v * 100)  / 100 ).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    return (Math.round(v * 1000) / 1000).toLocaleString('fr-FR', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+    if (v >= 10)    return (Math.round(v * 10)   / 10  ).toLocaleString('fr-FR', { minimumFractionDigits:1, maximumFractionDigits:1 });
+    if (v >= 1)     return (Math.round(v * 100)  / 100 ).toLocaleString('fr-FR', { minimumFractionDigits:2, maximumFractionDigits:2 });
+                    return (Math.round(v * 1000) / 1000).toLocaleString('fr-FR', { minimumFractionDigits:3, maximumFractionDigits:3 });
   }
 
-  /* ── Calcul ── */
+  /* ─── Calcul principal ─── */
   function update() {
-    var m      = MO[sel.value];
+    var m = MO[sel.value];
     if (!m) return;
+
     var iv     = parseFloat(document.getElementById('in-val').value)   || 0;
     var sv     = parseFloat(document.getElementById('surf-val').value) || 0;
     var surfM2 = surfUnit === 'ha' ? sv * 10000 : sv;
@@ -526,31 +636,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* Badges */
     document.getElementById('mo-badges').innerHTML =
-      '<span class="badge bmv">MV\u00a0: ' + m.a + '–' + m.b + '\u00a0kg/m³</span>' +
-      '<span class="badge bn">N\u00a0: '   + m.c + '–' + m.d + '\u00a0kgN/t · dispo\u00a0' + (m.e * 100) + '%</span>' +
-      '<span class="badge bp">P\u00a0: '   + m.f + '–' + m.g + '\u00a0kgP/t</span>' +
-      '<span class="badge bk">K\u00a0: '   + m.i + '–' + m.j + '\u00a0kgK/t</span>';
+      '<span class="badge bmv">MV\u00a0: ' + m.a + (m.a !== m.b ? '–' + m.b : '') + '\u00a0kg/m³</span>' +
+      '<span class="badge bn">N\u00a0: ' + m.c + (m.c !== m.d ? '–' + m.d : '') + '\u00a0kgN/t · dispo\u00a0' + Math.round(m.e * 100) + '%</span>' +
+      '<span class="badge bp">P\u00a0: ' + m.f + (m.f !== m.g ? '–' + m.g : '') + '\u00a0kgP/t</span>' +
+      '<span class="badge bk">K\u00a0: ' + m.i + (m.i !== m.j ? '–' + m.j : '') + '\u00a0kgK/t</span>';
 
     /* Poids t/ha min & max */
     var pMin = null, pMax = null;
 
     if (mode === 'epaisseur') {
       var volHa = iv / 100 * 10000;
-      pMin = volHa * m.a / 1000; pMax = volHa * m.b / 1000;
+      pMin = volHa * m.a / 1000;  pMax = volHa * m.b / 1000;
     } else if (mode === 'vol_ha') {
-      pMin = iv * m.a / 1000; pMax = iv * m.b / 1000;
+      pMin = iv * m.a / 1000;  pMax = iv * m.b / 1000;
     } else if (mode === 'vol_m2') {
-      pMin = iv * 10 * m.a / 1000; pMax = iv * 10 * m.b / 1000;
+      pMin = iv * 10 * m.a / 1000;  pMax = iv * 10 * m.b / 1000;
     } else if (mode === 'vol_surface') {
-      var volHa2 = surfHa > 0 ? iv / surfHa : 0;
-      pMin = volHa2 * m.a / 1000; pMax = volHa2 * m.b / 1000;
+      var vH2 = surfHa > 0 ? iv / surfHa : 0;
+      pMin = vH2 * m.a / 1000;  pMax = vH2 * m.b / 1000;
     } else if (mode === 'poids_t_surface') {
-      var tHa = surfHa > 0 ? iv / surfHa : 0;
-      pMin = tHa; pMax = tHa;
+      var tH = surfHa > 0 ? iv / surfHa : 0;
+      pMin = tH;  pMax = tH;
     } else if (mode === 'poids_t_ha') {
-      pMin = iv; pMax = iv;
+      pMin = iv;  pMax = iv;
     } else if (mode === 'poids_kg_m2') {
-      pMin = iv * 10; pMax = iv * 10;
+      pMin = iv * 10;  pMax = iv * 10;
     } else if (mode === 'azote') {
       if (m.e > 0) {
         pMin = m.d > 0 ? iv / (m.d * m.e) : null;
@@ -562,7 +672,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function conv(p, mv) {
       if (p === null || mv === 0) return {};
       var v = p * 1000 / mv;
-      return { ep: v/10000*100, vHa: v, vM2: v/10000*1000, vS: v*surfHa, tS: p*surfHa, tHa: p, kgM2: p/10 };
+      return { ep:v/10000*100, vHa:v, vM2:v/10000*1000, vS:v*surfHa, tS:p*surfHa, tHa:p, kgM2:p/10 };
     }
 
     var volFixe = ['epaisseur','vol_ha','vol_m2','vol_surface'].indexOf(mode) >= 0;
@@ -570,15 +680,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var Cmax = volFixe ? conv(pMax, m.b) : conv(pMax, m.a);
 
     function rv(key) {
+      var isEp = key === 'ep';
       var a = Cmin[key], b = Cmax[key];
       if (a === undefined || b === undefined) return '–';
       var poidsStrict = ['poids_t_surface','poids_t_ha','poids_kg_m2'].indexOf(mode) >= 0;
-      if (poidsStrict && ['tS','tHa','kgM2'].indexOf(key) >= 0) return fmt(a);
-      if (Math.abs((b || 0) - (a || 0)) > 0.0001) return fmt(a) + ' – ' + fmt(b);
-      return fmt(a !== undefined ? a : b);
+      if (poidsStrict && ['tS','tHa','kgM2'].indexOf(key) >= 0) return fmt(a, isEp);
+      if (Math.abs((b || 0) - (a || 0)) > 0.0001) return fmt(a, isEp) + ' – ' + fmt(b, isEp);
+      return fmt(a !== undefined ? a : b, isEp);
     }
 
-    /* Grille résultats */
     var rows = [
       { l:'Épaisseur',   u:'cm',    k:'ep'   },
       { l:'Volume',      u:'m³/ha', k:'vHa'  },
@@ -604,8 +714,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function rng(a, b) {
       if (a === null) return '–';
-      if (Math.abs((b || 0) - (a || 0)) < 0.0001) return fmt(a);
-      return fmt(a) + '<br><span style="font-size:10px;color:var(--tl)">à\u00a0' + fmt(b) + '</span>';
+      if (Math.abs((b || 0) - (a || 0)) < 0.0001) return fmt(a, false);
+      return fmt(a, false) + '<br><span style="font-size:10px;color:var(--tl)">à\u00a0' + fmt(b, false) + '</span>';
     }
 
     document.getElementById('npk-grid').innerHTML =
